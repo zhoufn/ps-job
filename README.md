@@ -4,7 +4,7 @@ ps-admin：用于管理任务的UI界面。<br>
 ps-core：ps平台。<br>
 ## 基础概念
 ### MonitorStrategy监控策略
-* 用户自定义的监控策略，需要继承Monitor抽象类。
+*用户自定义的监控策略，需要继承Monitor抽象类。
 ### SchedulerStrategy调度策略
 * 用户自定义的分片策略，需要继承Scheduler抽象类。
 ### ExecutorStrategy执行策略
