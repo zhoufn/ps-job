@@ -10,5 +10,5 @@ ps-core：ps平台。<br>
 ### ExecutorStrategy执行策略
 用户自定义的分片执行策略，需要继承Executor抽象类。
 ### Task任务
-任务是由MonitorStrategy、SchedulerStrategy和ExecutorStrategy组成，ExecutorStrategy实现Task的切割，SchedulerStrategy负责切割后任务的执行，MonitorStrategy实现整个Task的监控跟踪。
+任务是由MonitorStrategy、SchedulerStrategy和ExecutorStrategy组成，ExecutorStrategy实现Task的切割（切割后为ShardTask），SchedulerStrategy负责切割后任务的执行，MonitorStrategy实现整个Task的监控跟踪。
 
