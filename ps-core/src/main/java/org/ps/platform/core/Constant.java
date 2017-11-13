@@ -11,4 +11,10 @@ public class Constant {
 
     public static final String NODE_EXECUTOR = "executor";
 
+    public static final String NODE_TASK = "task";
+
+    public static final String NODE_TASK_WAITING = "waiting";
+
+    public static final String NODE_TASK_RUNNING = "running";
+
 }

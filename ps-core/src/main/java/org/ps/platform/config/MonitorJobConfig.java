@@ -9,6 +9,7 @@ import com.dangdang.ddframe.job.lite.config.LiteJobConfiguration;
 import com.dangdang.ddframe.job.lite.spring.api.SpringJobScheduler;
 import com.dangdang.ddframe.job.reg.zookeeper.ZookeeperRegistryCenter;
 import org.ps.platform.core.Constant;
+import org.ps.platform.core.zookeeper.ZookeeperHandler;
 import org.ps.platform.monitor.MonitorJob;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
@@ -34,9 +35,13 @@ public class MonitorJobConfig {
         return new MonitorJob();
     }
 
+    @Resource
+    private ZookeeperHandler zookeeperHandler;
+
     @Bean(initMethod = "init")
     public JobScheduler simpleJobScheduler(final MonitorJob monitorJob, @Value("${monitor.cron}") final String cron, @Value("${monitor.monitorTotalCount}") final int shardingTotalCount,
                                            @Value("${monitor.monitorItemParameters}") final String shardingItemParameters) {
+        zookeeperHandler.initTaskTree();
         return new SpringJobScheduler(monitorJob, regCenter, getLiteJobConfiguration(monitorJob.getClass(), cron, shardingTotalCount, shardingItemParameters), jobEventConfiguration);
     }
 

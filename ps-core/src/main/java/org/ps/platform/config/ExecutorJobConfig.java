@@ -9,6 +9,7 @@ import com.dangdang.ddframe.job.lite.config.LiteJobConfiguration;
 import com.dangdang.ddframe.job.lite.spring.api.SpringJobScheduler;
 import com.dangdang.ddframe.job.reg.zookeeper.ZookeeperRegistryCenter;
 import org.ps.platform.core.Constant;
+import org.ps.platform.core.zookeeper.ZookeeperHandler;
 import org.ps.platform.executor.ExecutorJob;
 import org.ps.platform.scheduler.SchedulerJob;
 import org.springframework.beans.factory.annotation.Value;
@@ -35,9 +36,13 @@ public class ExecutorJobConfig {
         return new ExecutorJob();
     }
 
+    @Resource
+    private ZookeeperHandler zookeeperHandler;
+
     @Bean(initMethod = "init")
     public JobScheduler simpleJobScheduler(final ExecutorJob executorJob, @Value("${executor.cron}") final String cron, @Value("${executor.executorTotalCount}") final int shardingTotalCount,
                                            @Value("${executor.executorItemParameters}") final String shardingItemParameters) {
+        zookeeperHandler.initTaskTree();
         return new SpringJobScheduler(executorJob, regCenter, getLiteJobConfiguration(executorJob.getClass(), cron, shardingTotalCount, shardingItemParameters), jobEventConfiguration);
     }
 
