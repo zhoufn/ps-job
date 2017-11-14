@@ -4,6 +4,7 @@ package org.ps.platform.core;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -16,27 +17,27 @@ public class Task implements Serializable{
     /**
      * id,uuid
      */
-    private String id;
+    @NotNull private String id;
 
     /**
      * 创建时间
      */
-    private long createTime;
+    @NotNull private long createTime;
 
     /**
      * 调度类
      */
-    private String scheduler;
+    @NotNull private String scheduler;
 
     /**
      * 监控类
      */
-    private String monitor;
+    @NotNull private String monitor;
 
     /**
      * 执行类
      */
-    private String executor;
+    @NotNull private String executor;
 
     /**
      * 附加参数
@@ -46,7 +47,12 @@ public class Task implements Serializable{
     /**
      * 优先级
      */
-    private int sort;
+    @NotNull private int sort;
+
+    /**
+     * 结束时间
+     */
+    private long endTime;
 
 
 }

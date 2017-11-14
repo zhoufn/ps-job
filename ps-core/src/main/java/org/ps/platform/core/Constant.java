@@ -17,4 +17,6 @@ public class Constant {
 
     public static final String NODE_TASK_RUNNING = "running";
 
+    public static final String NODE_TASK_DOWN = "down";
+
 }

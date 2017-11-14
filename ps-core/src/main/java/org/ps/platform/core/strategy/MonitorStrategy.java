@@ -1,4 +1,4 @@
-package org.ps.platform.monitor;
+package org.ps.platform.core.strategy;
 
 import org.ps.platform.core.Task;
 

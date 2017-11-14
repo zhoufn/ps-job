@@ -1,4 +1,4 @@
-package org.ps.platform.scheduler;
+package org.ps.platform.core.job;
 
 import com.dangdang.ddframe.job.api.ShardingContext;
 import com.dangdang.ddframe.job.api.simple.SimpleJob;

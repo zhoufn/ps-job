@@ -3,7 +3,7 @@ package org.ps.platform.config.jobconfig;
 import com.dangdang.ddframe.job.api.simple.SimpleJob;
 import org.ps.platform.config.JobConfig;
 import org.ps.platform.core.Constant;
-import org.ps.platform.monitor.MonitorJob;
+import org.ps.platform.core.job.MonitorJob;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.context.annotation.Configuration;

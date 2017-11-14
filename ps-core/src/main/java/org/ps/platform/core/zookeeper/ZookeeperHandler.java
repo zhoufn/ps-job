@@ -24,12 +24,15 @@ public class ZookeeperHandler {
 
     private String waitingPath = "/" + Constant.NODE_TASK + "/" + Constant.NODE_TASK_WAITING;
 
+    private String downPath = "/" + Constant.NODE_TASK + "/" + Constant.NODE_TASK_DOWN;
+
     /**
      * 初始化Task节点
      */
     public void initTaskTree() {
         this.createIfNotExist(runningPath);
         this.createIfNotExist(waitingPath);
+        this.createIfNotExist(downPath);
     }
 
     /**
@@ -43,7 +46,7 @@ public class ZookeeperHandler {
             if (nodes != null && nodes.size() > 0) {
                 byte[] bytes = this.registryCenter.getClient().getData().forPath(runningPath + "/" + nodes.get(0));
                 String string = new String(bytes);
-                return JSON.parseObject(string,Task.class);
+                return JSON.parseObject(string, Task.class);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -68,6 +71,27 @@ public class ZookeeperHandler {
                 task.setScheduler("demo");
                 task.setSort(1);
                 this.registryCenter.getClient().create().forPath(runningPath + "/" + task.getId(), JSON.toJSONString(task).getBytes());
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 设置任务状态为完成
+     *
+     * @param task
+     */
+    public void setRunnintTask2Down(Task task) {
+        try {
+            Stat stat = this.registryCenter.getClient().checkExists().forPath(runningPath + "/" + task.getId());
+            if (stat != null) {
+                this.registryCenter.getClient().inTransaction()
+                        .delete().forPath(runningPath + "/" + task.getId())
+                        .and()
+                        .create().forPath(downPath + "/" + task.getId(), JSON.toJSONString(task).getBytes())
+                        .and()
+                        .commit();
             }
         } catch (Exception e) {
             e.printStackTrace();
