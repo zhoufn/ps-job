@@ -22,5 +22,7 @@
 * 分片任务是由Task被SchedulerStrategy切割后获取到，由ExecutorStrategy负责执行。
 ### 细节说明
 * Scheduler、Executor、Monitor在启动前，会检查当前zookeeper下的Task结构是否已存在，不存在的话会创建此结构。
-* TODO：如果平台非正常终止，启动时任务怎么处理？
+### 问题列表
+* TODO：如果平台非正常终止，启动时任务怎么处理
+
 
