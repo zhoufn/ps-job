@@ -20,9 +20,9 @@
 * 任务是由MonitorStrategy、SchedulerStrategy和ExecutorStrategy组成，SchedulerStrategy实现Task的切割（切割后为ShardTask），ExecutorStrategy负责切割后任务的执行，MonitorStrategy实现整个Task的监控跟踪。
 ### ShardTask分片任务
 * 分片任务是由Task被SchedulerStrategy切割后获取到，由ExecutorStrategy负责执行。
-### 细节说明
+## 细节说明
 * Scheduler、Executor、Monitor在启动前，会检查当前zookeeper下的Task结构是否已存在，不存在的话会创建此结构。
-### 问题列表
-* TODO：如果平台非正常终止，启动时任务怎么处理
+## 问题列表
+* 如果平台非正常终止，启动时任务怎么处理
 
 
