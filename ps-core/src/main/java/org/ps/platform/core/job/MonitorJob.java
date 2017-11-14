@@ -26,6 +26,9 @@ public class MonitorJob implements SimpleJob{
     public void execute(ShardingContext shardingContext) {
         ZookeeperHandler handler = (ZookeeperHandler) PsContext.getBean(ZookeeperHandler.class);
         Task task = handler.getRunningTask();
+        if(task == null){
+            return;
+        }
         String monitorClazzName = task.getMonitor();
         Class monitorClazz = null;
         MonitorStrategy strategy = null;
