@@ -67,7 +67,7 @@ public class ZookeeperHandler {
                 task.setId(StringUtils.createUUID());
                 task.setCreateTime(System.currentTimeMillis());
                 task.setExecutor("demo");
-                task.setMonitor("demo");
+                task.setMonitor("org.ps.example.demo01.Demo01MonitorStrategy");
                 task.setScheduler("demo");
                 task.setSort(1);
                 this.registryCenter.getClient().create().forPath(runningPath + "/" + task.getId(), JSON.toJSONString(task).getBytes());
