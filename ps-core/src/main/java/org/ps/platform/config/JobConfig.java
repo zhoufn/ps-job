@@ -9,6 +9,7 @@ import com.dangdang.ddframe.job.lite.config.LiteJobConfiguration;
 import com.dangdang.ddframe.job.lite.spring.api.SpringJobScheduler;
 import com.dangdang.ddframe.job.reg.zookeeper.ZookeeperRegistryCenter;
 import org.ps.platform.core.zookeeper.ZookeeperHandler;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.context.annotation.Bean;
 
@@ -16,6 +17,9 @@ import javax.annotation.Resource;
 
 @Configurable
 public abstract class JobConfig {
+
+    @Autowired
+    protected Configuration configuration;
 
     @Resource
     protected ZookeeperRegistryCenter regCenter;

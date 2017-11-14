@@ -15,15 +15,6 @@ import org.springframework.context.annotation.Configuration;
 @ConditionalOnExpression("'${server.role}' == 'executor'")
 public class ExecutorJobConfig extends JobConfig {
 
-    @Value("${executor.cron}")
-    private String cron;
-
-    @Value("${executor.executorTotalCount}")
-    private int executorTotalCount;
-
-    @Value("${executor.executorItemParameters}")
-    private String executorItemParameters;
-
     @Override
     protected SimpleJob getJob() {
         return new ExecutorJob();
@@ -31,17 +22,17 @@ public class ExecutorJobConfig extends JobConfig {
 
     @Override
     protected String getCron() {
-        return this.cron;
+        return this.configuration.getExecutorCron();
     }
 
     @Override
     protected int getShardingTotalCount() {
-        return this.executorTotalCount;
+        return this.configuration.getExecutorTotalCount();
     }
 
     @Override
     protected String getShardingItemParameters() {
-        return this.executorItemParameters;
+        return this.configuration.getExecutorItemParameters();
     }
 
     @Override

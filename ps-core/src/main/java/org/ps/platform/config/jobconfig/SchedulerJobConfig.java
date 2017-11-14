@@ -15,15 +15,6 @@ import org.springframework.context.annotation.Configuration;
 @ConditionalOnExpression("'${server.role}' == 'scheduler'")
 public class SchedulerJobConfig extends JobConfig {
 
-    @Value("${scheduler.cron}")
-    private String cron;
-
-    @Value("${scheduler.shardingTotalCount}")
-    private int shardingTotalCount;
-
-    @Value("${scheduler.shardingItemParameters}")
-    private String shardingItemParameters;
-
     @Override
     protected SimpleJob getJob() {
         return new SchedulerJob();
@@ -31,17 +22,17 @@ public class SchedulerJobConfig extends JobConfig {
 
     @Override
     protected String getCron() {
-        return this.cron;
+        return this.configuration.getSchedulerCron();
     }
 
     @Override
     protected int getShardingTotalCount() {
-        return this.shardingTotalCount;
+        return this.configuration.getSchedulerTotalCount();
     }
 
     @Override
     protected String getShardingItemParameters() {
-        return this.shardingItemParameters;
+        return this.configuration.getSchedulerItemParameters();
     }
 
     @Override

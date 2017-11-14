@@ -4,6 +4,7 @@ import com.dangdang.ddframe.job.api.simple.SimpleJob;
 import org.ps.platform.config.JobConfig;
 import org.ps.platform.core.Constant;
 import org.ps.platform.core.job.MonitorJob;
+import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.context.annotation.Configuration;
@@ -15,15 +16,6 @@ import org.springframework.context.annotation.Configuration;
 @ConditionalOnExpression("'${server.role}' == 'monitor'")
 public class MonitorJobConfig extends JobConfig {
 
-    @Value("${monitor.cron}")
-    private String cron;
-
-    @Value("${monitor.monitorTotalCount}")
-    private int monitorTotalCount;
-
-    @Value("${monitor.monitorItemParameters}")
-    private String monitorItemParameters;
-
     @Override
     protected SimpleJob getJob() {
         return new MonitorJob();
@@ -31,17 +23,17 @@ public class MonitorJobConfig extends JobConfig {
 
     @Override
     protected String getCron() {
-        return this.cron;
+        return this.configuration.getMonitorCron();
     }
 
     @Override
     protected int getShardingTotalCount() {
-        return this.monitorTotalCount;
+        return this.configuration.getMonitorTotalCount();
     }
 
     @Override
     protected String getShardingItemParameters() {
-        return this.monitorItemParameters;
+        return this.configuration.getMonitorItemParameters();
     }
 
     @Override
