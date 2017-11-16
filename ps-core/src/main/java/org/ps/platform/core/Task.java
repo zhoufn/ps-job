@@ -6,13 +6,14 @@ import lombok.RequiredArgsConstructor;
 
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.Comparator;
 
 /**
  * 平台核心类
  */
 @Data
 @RequiredArgsConstructor
-public class Task implements Serializable{
+public class Task implements Serializable,Comparable<Task>{
 
     /**
      * id,uuid
@@ -55,4 +56,8 @@ public class Task implements Serializable{
     private long endTime;
 
 
+    @Override
+    public int compareTo(Task o) {
+        return (int)(this.getCreateTime() - o.getCreateTime());
+    }
 }
