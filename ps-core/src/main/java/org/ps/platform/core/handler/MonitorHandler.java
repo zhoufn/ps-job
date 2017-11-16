@@ -1,4 +1,4 @@
-package org.ps.platform.core.strategy;
+package org.ps.platform.core.handler;
 
 import org.ps.platform.core.Task;
 
