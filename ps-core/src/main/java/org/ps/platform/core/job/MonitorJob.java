@@ -6,7 +6,7 @@ import org.apache.commons.lang3.ClassUtils;
 import org.ps.platform.core.PsContext;
 import org.ps.platform.core.Task;
 import org.ps.platform.core.zookeeper.ZookeeperHandler;
-import org.ps.platform.core.strategy.MonitorHandler;
+import org.ps.platform.core.handler.MonitorHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
