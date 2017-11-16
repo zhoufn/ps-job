@@ -5,7 +5,7 @@ import org.ps.platform.core.Task;
 /**
  * 监控策略类，Monitor会不间断的调用实现类的监控方法。
  */
-public abstract class MonitorStrategy {
+public abstract class MonitorHandler {
 
 
     /**

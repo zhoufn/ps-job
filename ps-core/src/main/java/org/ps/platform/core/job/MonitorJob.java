@@ -6,7 +6,7 @@ import org.apache.commons.lang3.ClassUtils;
 import org.ps.platform.core.PsContext;
 import org.ps.platform.core.Task;
 import org.ps.platform.core.zookeeper.ZookeeperHandler;
-import org.ps.platform.core.strategy.MonitorStrategy;
+import org.ps.platform.core.strategy.MonitorHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,7 +19,7 @@ public class MonitorJob implements SimpleJob{
     /**
      * 监控作业.
      * 主要职责为监控zookeeper节点task/running节点下正在执行的任务，
-     * 重复的调用Task下指定的监控策略（MonitorStrategy）进行监控。
+     * 重复的调用Task下指定的监控策略（MonitorHandler）进行监控。
      * @param shardingContext 分片上下文
      */
     @Override
@@ -31,10 +31,10 @@ public class MonitorJob implements SimpleJob{
         }
         String monitorClazzName = task.getMonitor();
         Class monitorClazz = null;
-        MonitorStrategy strategy = null;
+        MonitorHandler strategy = null;
         try {
             monitorClazz = ClassUtils.getClass(monitorClazzName);
-            strategy = (MonitorStrategy) monitorClazz.newInstance();
+            strategy = (MonitorHandler) monitorClazz.newInstance();
         } catch (Exception e) {
             e.printStackTrace();
         }
