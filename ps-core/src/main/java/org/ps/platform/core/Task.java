@@ -13,32 +13,37 @@ import java.util.Comparator;
  */
 @Data
 @RequiredArgsConstructor
-public class Task implements Serializable,Comparable<Task>{
+public class Task implements Serializable, Comparable<Task> {
 
     /**
      * id,uuid
      */
-    @NotNull private String id;
+    @NotNull
+    private String id;
 
     /**
      * 创建时间
      */
-    @NotNull private long createTime;
+    @NotNull
+    private long createTime;
 
     /**
      * 调度类
      */
-    @NotNull private String scheduler;
+    @NotNull
+    private String scheduler;
 
     /**
      * 监控类
      */
-    @NotNull private String monitor;
+    @NotNull
+    private String monitor;
 
     /**
      * 执行类
      */
-    @NotNull private String executor;
+    @NotNull
+    private String executor;
 
     /**
      * 附加参数
@@ -48,7 +53,8 @@ public class Task implements Serializable,Comparable<Task>{
     /**
      * 优先级
      */
-    @NotNull private int sort;
+    @NotNull
+    private int sort;
 
     /**
      * 结束时间
@@ -58,6 +64,6 @@ public class Task implements Serializable,Comparable<Task>{
 
     @Override
     public int compareTo(Task o) {
-        return (int)(this.getCreateTime() - o.getCreateTime());
+        return (int) ((this.sort - o.getSort()) == 0 ? (this.createTime - o.getCreateTime()) : this.sort - o.getSort());
     }
 }
