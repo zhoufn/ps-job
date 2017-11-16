@@ -3,6 +3,7 @@ package org.ps.platform.core.job;
 import com.dangdang.ddframe.job.api.ShardingContext;
 import com.dangdang.ddframe.job.api.simple.SimpleJob;
 import org.ps.platform.core.PsContext;
+import org.ps.platform.core.Task;
 import org.ps.platform.core.zookeeper.ZookeeperHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,6 +22,6 @@ public class SchedulerJob implements SimpleJob{
     @Override
     public void execute(ShardingContext shardingContext) {
         ZookeeperHandler handler = (ZookeeperHandler) PsContext.getBean(ZookeeperHandler.class);
-        handler.setRunningTask();
+        Task task  = handler.setWaitingTask2Running();
     }
 }

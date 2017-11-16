@@ -9,6 +9,8 @@ import org.ps.platform.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -58,23 +60,36 @@ public class ZookeeperHandler {
     /**
      * 从等待的任务列表中获取任务
      */
-    public void setRunningTask() {
+    public Task setWaitingTask2Running() {
+        Task task = null;
         try {
             //判断当前有没有执行中的任务
             List<String> children = this.registryCenter.getClient().getChildren().forPath(runningPath);
+            //无执行任务
             if (children == null || children.size() == 0) {
-                Task task = new Task();
-                task.setId(StringUtils.createUUID());
-                task.setCreateTime(System.currentTimeMillis());
-                task.setExecutor("demo");
-                task.setMonitor("org.ps.example.demo01.Demo01MonitorHandler");
-                task.setScheduler("demo");
-                task.setSort(1);
-                this.registryCenter.getClient().create().forPath(runningPath + "/" + task.getId(), JSON.toJSONString(task).getBytes());
+                List<String> waitChildren = this.registryCenter.getClient().getChildren().forPath(waitingPath);
+                if(waitChildren != null && waitChildren.size() > 0){
+                    List<Task> tasks = new ArrayList<>();
+                    for(String child : waitChildren){
+                        byte[] bytes = this.registryCenter.getClient().getData().forPath(waitingPath + "/" + child);
+                        String string = new String(bytes);
+                        Task temp =  JSON.parseObject(string, Task.class);
+                        tasks.add(temp);
+                    }
+                    Collections.sort(tasks);
+                    task = tasks.get(0);
+                    this.registryCenter.getClient().inTransaction()
+                            .delete().forPath(waitingPath + "/" + task.getId())
+                            .and()
+                            .create().forPath(runningPath + "/" + task.getId(),JSON.toJSONString(task).getBytes())
+                            .and()
+                            .commit();
+                }
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return task;
     }
 
     /**
