@@ -62,6 +62,11 @@ public class Task implements Serializable, Comparable<Task> {
     private long endTime;
 
 
+    /**
+     *
+     * @param o
+     * @return
+     */
     @Override
     public int compareTo(Task o) {
         return (int) ((this.sort - o.getSort()) == 0 ? (this.createTime - o.getCreateTime()) : this.sort - o.getSort());
