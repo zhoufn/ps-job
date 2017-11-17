@@ -14,7 +14,14 @@ import org.springframework.context.annotation.Configuration;
 @ConditionalOnExpression("'${regCenter.serverList}'.length() > 0")
 public class RegistryCenterConfig {
     @Bean(initMethod = "init")
-    public ZookeeperRegistryCenter regCenter(@Value("${regCenter.serverList}") final String serverList, @Value("${regCenter.namespace}") final String namespace) {
-        return new ZookeeperRegistryCenter(new ZookeeperConfiguration(serverList, namespace));
+    public ZookeeperRegistryCenter regCenter(
+            @Value("${regCenter.serverList}") final String serverList,
+            @Value("${regCenter.namespace}") final String namespace,
+            @Value("${regCenter.sessionTimeoutMilliseconds}") final int sessionTimeout,
+            @Value("${regCenter.connectionTimeoutMilliseconds}") final int connectionTimeout) {
+        ZookeeperConfiguration configuration = new ZookeeperConfiguration(serverList, namespace);
+        configuration.setConnectionTimeoutMilliseconds(connectionTimeout);
+        configuration.setSessionTimeoutMilliseconds(sessionTimeout);
+        return new ZookeeperRegistryCenter(configuration);
     }
 }
