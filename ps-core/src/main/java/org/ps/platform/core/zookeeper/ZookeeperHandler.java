@@ -114,6 +114,18 @@ public class ZookeeperHandler {
     }
 
     /**
+     * 新增一个等待任务
+     * @param task
+     */
+    public void addOneWaitingTask(Task task){
+        try {
+            this.registryCenter.getClient().create().forPath(waitingPath + "/" + task.getId(),JSON.toJSONString(task).getBytes());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    /**
      * 路径不存在的话创建
      *
      * @param path
