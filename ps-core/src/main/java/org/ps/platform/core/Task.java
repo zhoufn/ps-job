@@ -61,6 +61,16 @@ public class Task implements Serializable, Comparable<Task> {
      */
     private long endTime;
 
+    /**
+     * 任务是否存在异常
+     */
+    private boolean error = false;
+
+    /**
+     * 异常信息
+     */
+    private String errorMsg;
+
 
     /**
      *
