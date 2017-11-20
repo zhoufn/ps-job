@@ -1,7 +1,9 @@
 package org.ps.platform.core.job;
 
 import com.dangdang.ddframe.job.api.ShardingContext;
+import org.ps.platform.core.PsContext;
 import org.ps.platform.core.Task;
+import org.ps.platform.core.handler.ExecutorHandler;
 import org.ps.platform.core.zookeeper.ZookeeperHandler;
 import org.springframework.stereotype.Component;
 
@@ -17,6 +19,10 @@ public class ExecutorJob extends AbstractJob{
      */
     @Override
     public void execute(ShardingContext shardingContext, Task runnigTask) {
-
+        if(runnigTask == null){
+            return;
+        }
+        ExecutorHandler handler = (ExecutorHandler) PsContext.getExecutor(runnigTask.getExecutor());
+        handler.execute(shardingContext,runnigTask);
     }
 }

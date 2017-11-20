@@ -1,8 +1,10 @@
 package org.ps.platform.core;
 
 import javafx.beans.property.adapter.ReadOnlyJavaBeanBooleanProperty;
+import org.ps.platform.core.annotation.IExecutor;
 import org.ps.platform.core.annotation.IMonitor;
 import org.ps.platform.core.annotation.IScheduler;
+import org.ps.platform.core.handler.ExecutorHandler;
 import org.ps.platform.core.handler.MonitorHandler;
 import org.ps.platform.core.handler.SchedulerHandler;
 import org.springframework.beans.BeansException;
@@ -27,6 +29,7 @@ public class PsContext implements ApplicationContextAware {
 
     private static ConcurrentHashMap<String, SchedulerHandler> schedulerHandlerRepository = new ConcurrentHashMap<>();
 
+    private static ConcurrentHashMap<String, ExecutorHandler> executorHandlerRepository = new ConcurrentHashMap<>();
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
@@ -66,6 +69,24 @@ public class PsContext implements ApplicationContextAware {
                 }
             }
         }
+
+        /**
+         * 加载自定义执行器
+         */
+        Map<String,Object> executorObjects = ac.getBeansWithAnnotation(IExecutor.class);
+        if(executorObjects != null && executorObjects.size() > 0){
+            for(Object serviceBean : executorObjects.values()){
+                if(serviceBean instanceof ExecutorHandler){
+                    String name = serviceBean.getClass().getAnnotation(IExecutor.class).name();
+                    ExecutorHandler handler = (ExecutorHandler) serviceBean;
+                    if(executorHandlerRepository.get(name) != null || nameRepository.get(name) != null){
+                        throw new RuntimeException("Executor命名冲突。");
+                    }
+                    executorHandlerRepository.put(name,handler);
+                    nameRepository.put(name,name);
+                }
+            }
+        }
     }
 
     /**
@@ -96,4 +117,11 @@ public class PsContext implements ApplicationContextAware {
     public static Object getScheduler(String schedulerName){
         return schedulerHandlerRepository.get(schedulerName);
     }
+
+    /**
+     * 根据IExecutor注解获取ExecutorHandler
+     * @param executorName
+     * @return
+     */
+    public static Object getExecutor(String executorName){return executorHandlerRepository.get(executorName);}
 }
