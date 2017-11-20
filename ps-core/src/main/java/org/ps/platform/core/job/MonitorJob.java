@@ -13,23 +13,15 @@ import org.slf4j.LoggerFactory;
 /**
  * PS平台下用来监控任务的监控器
  */
-public class MonitorJob implements SimpleJob{
+public class MonitorJob extends AbstractJob{
 
-    private Logger logger = LoggerFactory.getLogger(MonitorJob.class);
     /**
-     * 监控作业.
-     * 主要职责为监控zookeeper节点task/running节点下正在执行的任务，
-     * 重复的调用Task下指定的监控策略（MonitorHandler）进行监控。
      * @param shardingContext 分片上下文
+     * @param runnigTask      当前执行中的任务
      */
     @Override
-    public void execute(ShardingContext shardingContext) {
-        ZookeeperHandler handler = (ZookeeperHandler) PsContext.getBean(ZookeeperHandler.class);
-        Task task = handler.getRunningTask();
-        if(task == null){
-            return;
-        }
-        String monitorClazzName = task.getMonitor();
+    public void execute(ZookeeperHandler handler,ShardingContext shardingContext, Task runnigTask) {
+        String monitorClazzName = runnigTask.getMonitor();
         Class monitorClazz = null;
         MonitorHandler strategy = null;
         try {
@@ -41,10 +33,10 @@ public class MonitorJob implements SimpleJob{
         if(strategy == null){
             return;
         }
-        boolean isDown = strategy.isDown(task);
+        boolean isDown = strategy.isDown(runnigTask);
         if(isDown){
-            task.setEndTime(System.currentTimeMillis());
-            handler.setRunnintTask2Down(task);
+            runnigTask.setEndTime(System.currentTimeMillis());
+            handler.setRunnintTask2Down(runnigTask);
         }
     }
 }

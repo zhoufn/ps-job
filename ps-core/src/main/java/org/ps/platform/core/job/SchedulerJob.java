@@ -11,17 +11,15 @@ import org.slf4j.LoggerFactory;
 /**
  * 平台下用来执行分片策略的调度器
  */
-public class SchedulerJob implements SimpleJob{
+public class SchedulerJob extends AbstractJob{
 
-    private Logger logger = LoggerFactory.getLogger(SchedulerJob.class);
     /**
-     * 执行作业.
-     *
+     * @param handler         zookeeper操作类
      * @param shardingContext 分片上下文
+     * @param runnigTask      当前执行中的任务
      */
     @Override
-    public void execute(ShardingContext shardingContext) {
-        ZookeeperHandler handler = (ZookeeperHandler) PsContext.getBean(ZookeeperHandler.class);
-        Task task  = handler.setWaitingTask2Running();
+    public void execute(ZookeeperHandler handler, ShardingContext shardingContext, Task runnigTask) {
+        runnigTask = handler.setWaitingTask2Running();
     }
 }
