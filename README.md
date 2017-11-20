@@ -20,6 +20,8 @@
 * 任务是由MonitorHandler、SchedulerHandler和ExecutorHandler组成，SchedulerHandler实现Task的切割（切割后为ShardTask），ExecutorHandler负责切割后任务的执行，MonitorHandler实现整个Task的监控跟踪。
 ### ShardTask分片任务
 * 分片任务是由Task被SchedulerHandler切割后获取到，由ExecutorHandler负责执行。
+## 使用方式
+* 自定义监控类需要继承基础类MonitorHandler，同时使用@Component将其组件化，使用@IMonitor为其命名，每个Task的Monitor对应的@IMonitor的name禁止冲突。
 ## 细节说明
 * Scheduler、Executor、Monitor在启动前，会检查当前zookeeper下的Task结构是否已存在，不存在的话会创建此结构。
 ## 问题列表
