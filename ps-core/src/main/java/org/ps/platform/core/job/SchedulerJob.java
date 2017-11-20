@@ -2,6 +2,7 @@ package org.ps.platform.core.job;
 
 import com.dangdang.ddframe.job.api.ShardingContext;
 import org.apache.commons.lang3.ClassUtils;
+import org.ps.platform.core.PsContext;
 import org.ps.platform.core.Task;
 import org.ps.platform.core.handler.SchedulerHandler;
 import org.ps.platform.core.zookeeper.ZookeeperHandler;
@@ -14,12 +15,11 @@ import org.springframework.stereotype.Component;
 public class SchedulerJob extends AbstractJob{
 
     /**
-     * @param handler         zookeeper操作类
      * @param shardingContext 分片上下文
      * @param runnigTask      当前执行中的任务
      */
     @Override
-    public void execute(ZookeeperHandler handler, ShardingContext shardingContext, Task runnigTask) {
+    public void execute(ShardingContext shardingContext, Task runnigTask) {
         /**
          * 当前有任务执行时等待
          */
@@ -30,15 +30,12 @@ public class SchedulerJob extends AbstractJob{
         if(waitingJob == null){//不存在等待任务时
             return;
         }
-
         /**
          * 获取分片类，执行分片方法
          */
         try{
-            String clazzName = waitingJob.getScheduler();
-            Class clazz = ClassUtils.getClass(clazzName);
-            SchedulerHandler schedulerHandler = (SchedulerHandler) clazz.newInstance();
-            schedulerHandler.scheduler(waitingJob);
+            SchedulerHandler schedulerHandler = (SchedulerHandler) PsContext.getScheduler(waitingJob.getScheduler());
+            schedulerHandler.shard(waitingJob);
         }catch (Exception e){
             e.printStackTrace();
             waitingJob.setEndTime(System.currentTimeMillis());

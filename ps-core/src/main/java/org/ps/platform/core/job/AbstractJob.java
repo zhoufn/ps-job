@@ -20,13 +20,12 @@ public abstract class AbstractJob implements SimpleJob{
     @Override
     public void execute(ShardingContext shardingContext) {
         Task task = handler.getRunningTask();
-        this.execute(handler,shardingContext,task);
+        this.execute(shardingContext,task);
     }
 
     /**
-     * @param handler  zookeeper操作类
      * @param shardingContext 分片上下文
      * @param runnigTask 当前执行中的任务
      */
-    public abstract void execute(ZookeeperHandler handler,ShardingContext shardingContext, Task runnigTask);
+    public abstract void execute(ShardingContext shardingContext, Task runnigTask);
 }

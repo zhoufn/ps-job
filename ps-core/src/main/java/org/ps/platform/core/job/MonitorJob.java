@@ -19,7 +19,7 @@ public class MonitorJob extends AbstractJob{
      * @param runnigTask      当前执行中的任务
      */
     @Override
-    public void execute(ZookeeperHandler handler,ShardingContext shardingContext, Task runnigTask) {
+    public void execute(ShardingContext shardingContext, Task runnigTask) {
         if(runnigTask == null){
             return;
         }

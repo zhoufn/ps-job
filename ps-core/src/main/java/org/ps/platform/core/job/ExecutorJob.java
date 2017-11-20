@@ -12,12 +12,11 @@ import org.springframework.stereotype.Component;
 public class ExecutorJob extends AbstractJob{
 
     /**
-     * @param handler         zookeeper操作类
      * @param shardingContext 分片上下文
      * @param runnigTask      当前执行中的任务
      */
     @Override
-    public void execute(ZookeeperHandler handler, ShardingContext shardingContext, Task runnigTask) {
+    public void execute(ShardingContext shardingContext, Task runnigTask) {
 
     }
 }
