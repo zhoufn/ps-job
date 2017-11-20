@@ -17,9 +17,6 @@ public abstract class AbstractJob implements SimpleJob{
     public void execute(ShardingContext shardingContext) {
         ZookeeperHandler handler = (ZookeeperHandler) PsContext.getBean(ZookeeperHandler.class);
         Task task = handler.getRunningTask();
-        if(task == null){
-            return;
-        }
         this.execute(handler,shardingContext,task);
     }
 

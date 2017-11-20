@@ -21,21 +21,28 @@ public class MonitorJob extends AbstractJob{
      */
     @Override
     public void execute(ZookeeperHandler handler,ShardingContext shardingContext, Task runnigTask) {
-        String monitorClazzName = runnigTask.getMonitor();
-        Class monitorClazz = null;
-        MonitorHandler strategy = null;
-        try {
-            monitorClazz = ClassUtils.getClass(monitorClazzName);
-            strategy = (MonitorHandler) monitorClazz.newInstance();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        if(strategy == null){
+        if(runnigTask == null){
             return;
         }
-        boolean isDown = strategy.isDown(runnigTask);
-        if(isDown){
+        try {
+            /**
+             * 反射监控类，调用监控方法
+             */
+            String monitorClazzName = runnigTask.getMonitor();
+            Class monitorClazz = ClassUtils.getClass(monitorClazzName);
+            MonitorHandler strategy = (MonitorHandler) monitorClazz.newInstance();
+            boolean isDown = strategy.isDown(runnigTask);
+            if(isDown){ //监控到完成信号时
+                runnigTask.setEndTime(System.currentTimeMillis());
+                handler.setRunnintTask2Down(runnigTask);
+            }
+        } catch (Exception e) {
+            /**
+             * 监控异常时，修改任务错误标识
+             */
             runnigTask.setEndTime(System.currentTimeMillis());
+            runnigTask.setError(true);
+            runnigTask.setErrorMsg(e.getMessage());
             handler.setRunnintTask2Down(runnigTask);
         }
     }
