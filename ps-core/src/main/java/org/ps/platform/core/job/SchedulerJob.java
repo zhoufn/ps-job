@@ -43,5 +43,9 @@ public class SchedulerJob extends AbstractJob{
             waitingJob.setErrorMsg("分片策略执行异常。");
             handler.setWaitingTask2Down(waitingJob);
         }
+        /**
+         * 成功后将此任务转为执行任务
+         */
+        handler.setWaitingTask2Running(waitingJob);
     }
 }
