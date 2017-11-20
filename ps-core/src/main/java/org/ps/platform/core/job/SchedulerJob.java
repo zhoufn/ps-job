@@ -1,17 +1,16 @@
 package org.ps.platform.core.job;
 
 import com.dangdang.ddframe.job.api.ShardingContext;
-import com.dangdang.ddframe.job.api.simple.SimpleJob;
 import org.apache.commons.lang3.ClassUtils;
-import org.ps.platform.core.PsContext;
 import org.ps.platform.core.Task;
+import org.ps.platform.core.handler.SchedulerHandler;
 import org.ps.platform.core.zookeeper.ZookeeperHandler;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 /**
  * 平台下用来执行分片策略的调度器
  */
+@Component
 public class SchedulerJob extends AbstractJob{
 
     /**
@@ -21,6 +20,31 @@ public class SchedulerJob extends AbstractJob{
      */
     @Override
     public void execute(ZookeeperHandler handler, ShardingContext shardingContext, Task runnigTask) {
+        /**
+         * 当前有任务执行时等待
+         */
+        if(runnigTask != null){
+            return;
+        }
+        Task waitingJob = handler.getOneWaitingTask();
+        if(waitingJob == null){//不存在等待任务时
+            return;
+        }
 
+        /**
+         * 获取分片类，执行分片方法
+         */
+        try{
+            String clazzName = waitingJob.getScheduler();
+            Class clazz = ClassUtils.getClass(clazzName);
+            SchedulerHandler schedulerHandler = (SchedulerHandler) clazz.newInstance();
+            schedulerHandler.scheduler(waitingJob);
+        }catch (Exception e){
+            e.printStackTrace();
+            waitingJob.setEndTime(System.currentTimeMillis());
+            waitingJob.setError(true);
+            waitingJob.setErrorMsg("分片策略执行异常。");
+            handler.setWaitingTask2Down(waitingJob);
+        }
     }
 }

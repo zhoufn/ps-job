@@ -4,6 +4,7 @@ import com.dangdang.ddframe.job.api.simple.SimpleJob;
 import org.ps.platform.config.JobConfig;
 import org.ps.platform.core.Constant;
 import org.ps.platform.core.job.MonitorJob;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
@@ -16,9 +17,12 @@ import org.springframework.context.annotation.Configuration;
 @ConditionalOnExpression("'${server.role}' == 'monitor'")
 public class MonitorJobConfig extends JobConfig {
 
+    @Autowired
+    private MonitorJob job;
+
     @Override
     protected SimpleJob getJob() {
-        return new MonitorJob();
+        return this.job;
     }
 
     @Override

@@ -1,6 +1,8 @@
 package org.ps.service;
 
+import org.ps.domain.Task;
 import org.ps.handler.ZookeeperHandler;
+import org.ps.uitl.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -8,16 +10,18 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
 @Component
-@Configuration
 public class TaskServiceImpl implements TaskService{
 
     @Autowired
     private ZookeeperHandler zookeeperHandler;
 
-    @Bean(initMethod = "init")
-    public ZookeeperHandler getZookeeperHandler(@Value("${ps.regCenter.serverList}") final String regCenter, @Value("${ps.regCenter.namespace}") final String namespace){
-        return new ZookeeperHandler(regCenter,namespace);
-    }
 
+    public void insertWaitingTask(){
+        Task task = new Task();
+        task.setId(StringUtils.createUUID());
+        task.setCreateTime(System.currentTimeMillis());
+        task.setMonitor("demoMonitor");
+        zookeeperHandler.addWaitingTask(task);
+    }
 
 }

@@ -15,12 +15,9 @@ public class DemoController {
 
     @RequestMapping("/demo")
     public String demo(){
+        this.taskService.insertWaitingTask();
         return "hello world!";
     }
 
-    @RequestMapping("/zkList")
-    public List<String> zkList(){
-        return this.taskService.getChildren("/task");
-    }
 
 }

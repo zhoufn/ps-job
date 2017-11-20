@@ -5,7 +5,6 @@ import com.dangdang.ddframe.job.reg.zookeeper.ZookeeperRegistryCenter;
 import org.apache.zookeeper.data.Stat;
 import org.ps.platform.core.Constant;
 import org.ps.platform.core.Task;
-import org.ps.platform.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -58,33 +57,22 @@ public class ZookeeperHandler {
     }
 
     /**
-     * 从等待的任务列表中获取任务
+     * 根据优先级从等待的任务中获取一个待执行的任务
      */
-    public Task setWaitingTask2Running() {
+    public Task getOneWaitingTask() {
         Task task = null;
         try {
-            //判断当前有没有执行中的任务
-            List<String> children = this.registryCenter.getClient().getChildren().forPath(runningPath);
-            //无执行任务
-            if (children == null || children.size() == 0) {
-                List<String> waitChildren = this.registryCenter.getClient().getChildren().forPath(waitingPath);
-                if(waitChildren != null && waitChildren.size() > 0){
-                    List<Task> tasks = new ArrayList<>();
-                    for(String child : waitChildren){
-                        byte[] bytes = this.registryCenter.getClient().getData().forPath(waitingPath + "/" + child);
-                        String string = new String(bytes);
-                        Task temp =  JSON.parseObject(string, Task.class);
-                        tasks.add(temp);
-                    }
-                    Collections.sort(tasks);
-                    task = tasks.get(0);
-                    this.registryCenter.getClient().inTransaction()
-                            .delete().forPath(waitingPath + "/" + task.getId())
-                            .and()
-                            .create().forPath(runningPath + "/" + task.getId(),JSON.toJSONString(task).getBytes())
-                            .and()
-                            .commit();
+            List<String> waitChildren = this.registryCenter.getClient().getChildren().forPath(waitingPath);
+            if (waitChildren != null && waitChildren.size() > 0) {
+                List<Task> tasks = new ArrayList<>();
+                for (String child : waitChildren) {
+                    byte[] bytes = this.registryCenter.getClient().getData().forPath(waitingPath + "/" + child);
+                    String string = new String(bytes);
+                    Task temp = JSON.parseObject(string, Task.class);
+                    tasks.add(temp);
                 }
+                Collections.sort(tasks);
+                task = tasks.get(0);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -93,18 +81,55 @@ public class ZookeeperHandler {
     }
 
     /**
+     * 设置指定Task为Running状态
+     *
+     * @param task
+     */
+    public void setWaitingTask2Running(Task task) {
+        try {
+            this.registryCenter.getClient().inTransaction()
+                    .delete().forPath(waitingPath + "/" + task.getId())
+                    .and()
+                    .create().forPath(runningPath + "/" + task.getId(), JSON.toJSONString(task).getBytes())
+                    .and()
+                    .commit();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
      * 设置任务状态为完成
      *
      * @param task
      */
     public void setRunnintTask2Down(Task task) {
+        this.moveTask(runningPath,downPath,task);
+    }
+
+    /**
+     * 设置等待任务为完成
+     *
+     * @param task
+     */
+    public void setWaitingTask2Down(Task task) {
+        this.moveTask(waitingPath,downPath,task);
+    }
+
+    /**
+     *
+     * @param fromPath
+     * @param toPath
+     * @param task
+     */
+    private void moveTask(String fromPath, String toPath, Task task) {
         try {
-            Stat stat = this.registryCenter.getClient().checkExists().forPath(runningPath + "/" + task.getId());
+            Stat stat = this.registryCenter.getClient().checkExists().forPath(fromPath + "/" + task.getId());
             if (stat != null) {
                 this.registryCenter.getClient().inTransaction()
-                        .delete().forPath(runningPath + "/" + task.getId())
+                        .delete().forPath(fromPath + "/" + task.getId())
                         .and()
-                        .create().forPath(downPath + "/" + task.getId(), JSON.toJSONString(task).getBytes())
+                        .create().forPath(toPath + "/" + task.getId(), JSON.toJSONString(task).getBytes())
                         .and()
                         .commit();
             }
@@ -115,12 +140,13 @@ public class ZookeeperHandler {
 
     /**
      * 新增一个等待任务
+     *
      * @param task
      */
-    public void addOneWaitingTask(Task task){
+    public void addOneWaitingTask(Task task) {
         try {
-            this.registryCenter.getClient().create().forPath(waitingPath + "/" + task.getId(),JSON.toJSONString(task).getBytes());
-        }catch (Exception e){
+            this.registryCenter.getClient().create().forPath(waitingPath + "/" + task.getId(), JSON.toJSONString(task).getBytes());
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

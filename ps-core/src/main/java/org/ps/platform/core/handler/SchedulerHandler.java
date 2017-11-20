@@ -10,15 +10,18 @@ import java.util.List;
  */
 public abstract class SchedulerHandler {
 
-    public void scheduler(){
+    /**
+     * 调度方法
+     */
+    public void shard(Task waitingTask){
 
     }
 
     /**
      * 用户自定义分片策略
-     * @param runningTask
+     * @param waitingTask
      * @return
      */
-    public abstract List<ShardTask> scheduler(Task runningTask);
+    public abstract List<ShardTask> scheduler(Task waitingTask);
 
 }

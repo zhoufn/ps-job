@@ -1,15 +1,14 @@
 package org.ps.platform.core.job;
 
 import com.dangdang.ddframe.job.api.ShardingContext;
-import com.dangdang.ddframe.job.api.simple.SimpleJob;
 import org.ps.platform.core.Task;
 import org.ps.platform.core.zookeeper.ZookeeperHandler;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 /**
  * PS平台下用来执行具体分片任务的执行器
  */
+@Component
 public class ExecutorJob extends AbstractJob{
 
     /**

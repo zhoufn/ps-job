@@ -1,4 +1,4 @@
-package org.ps.platform.core;
+package org.ps.domain;
 
 
 import lombok.Data;

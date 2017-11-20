@@ -22,6 +22,11 @@
         <slf4j.version>1.7.25</slf4j.version>
         <nekohtml.version>1.9.12</nekohtml.version>
         <curator.version>2.10.0</curator.version>
+        <jpa.version>2.0.1.RELEASE</jpa.version>
+        <fastjson.version>1.2.38</fastjson.version>
+        <lombok.version>1.16.18</lombok.version>
+        <common-lang3.version>3.4</common-lang3.version>
+        <common-io.version>2.4</common-io.version>
     </properties>
 
     <dependencyManagement>
@@ -61,6 +66,31 @@
                 <groupId>org.apache.curator</groupId>
                 <artifactId>curator-framework</artifactId>
                 <version>${curator.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${fastjson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+                <scope>provided</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-lang3</artifactId>
+                <version>${common-lang3.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>commons-io</groupId>
+                <artifactId>commons-io</artifactId>
+                <version>${common-io.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-configuration-metadata</artifactId>
             </dependency>
         </dependencies>
     </dependencyManagement>
