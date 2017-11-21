@@ -11,7 +11,10 @@
 * ps-core：ps平台。
 ## 基础概念
 ### MonitorHandler监控策略
-* 用户自定义的监控策略，需要继承Monitor抽象类。
+* 用户自定义的监控策略，需要继承MonitorHandler抽象类。
+* _boolean isDown(Task runningTask)_ 判断当前执行中的任务是否完成，返回true标识完成。
+* _int process(Task runningTask)_ 获取当前执行中的任务的执行进度。
+* _void createReport(Task runningTask)_ 在isDown为true时被触发，生成任务报告。
 ### SchedulerHandler调度策略
 * 用户自定义的分片策略，需要继承Scheduler抽象类。
 ### ExecutorHandler执行策略
