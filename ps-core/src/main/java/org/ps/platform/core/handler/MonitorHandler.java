@@ -1,7 +1,6 @@
 package org.ps.platform.core.handler;
 
 import org.ps.platform.core.Task;
-import org.ps.platform.core.TaskReport;
 import org.ps.platform.core.exception.MonitorException;
 import org.ps.platform.core.exception.PSException;
 import org.ps.platform.core.exception.ProcessException;
