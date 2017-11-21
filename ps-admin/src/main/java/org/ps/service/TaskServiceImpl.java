@@ -21,6 +21,8 @@ public class TaskServiceImpl implements TaskService{
         task.setId(StringUtils.createUUID());
         task.setCreateTime(System.currentTimeMillis());
         task.setMonitor("demoMonitor");
+        task.setScheduler("demoScheduler");
+        task.setExecutor("demoExecutor");
         zookeeperHandler.addWaitingTask(task);
     }
 

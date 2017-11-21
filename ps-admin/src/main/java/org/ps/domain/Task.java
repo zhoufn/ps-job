@@ -14,6 +14,7 @@ import java.io.Serializable;
 @RequiredArgsConstructor
 public class Task implements Serializable, Comparable<Task> {
 
+
     /**
      * id,uuid
      */
@@ -69,6 +70,11 @@ public class Task implements Serializable, Comparable<Task> {
      * 异常信息
      */
     private String errorMsg;
+
+    /**
+     * 进度信息
+     */
+    private int process;
 
 
     /**
