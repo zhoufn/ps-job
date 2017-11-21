@@ -116,6 +116,19 @@ public class ZookeeperHandler {
         this.moveTask(waitingPath,downPath,task);
     }
 
+
+    /**
+     * 更新运行中的任务
+     * @param task
+     */
+    public void updateRuningTask(Task task){
+        try {
+            this.registryCenter.getClient().setData().forPath(runningPath + "/" + task.getId(),JSON.toJSONString(task).getBytes());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
     /**
      *
      * @param fromPath
@@ -137,6 +150,7 @@ public class ZookeeperHandler {
             e.printStackTrace();
         }
     }
+
 
     /**
      * 新增一个等待任务
