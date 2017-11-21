@@ -1,4 +1,4 @@
-# PS(Parallel Service)-分布式任务管理平台
+# PS-JOB 分布式任务管理平台
 基于当当的ElasticJob二次开发的分布式任务管理平台。
 ## 原理说明
 本平台基于当当的ElasticJob开发，主要分为以下三部分：
