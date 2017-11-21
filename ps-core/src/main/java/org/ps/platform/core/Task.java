@@ -70,6 +70,11 @@ public class Task implements Serializable, Comparable<Task> {
      */
     private String errorMsg;
 
+    /**
+     * 进度信息
+     */
+    private int process;
+
 
     /**
      *
