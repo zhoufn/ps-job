@@ -9,6 +9,12 @@ import org.ps.platform.core.exception.ExecutorException;
  */
 public abstract class ExecutorHandler {
 
+    /**
+     *
+     * @param shardingContext
+     * @param runnigTask
+     * @throws ExecutorException
+     */
     public abstract void execute(ShardingContext shardingContext, Task runnigTask) throws ExecutorException;
 
 }
