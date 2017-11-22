@@ -15,6 +15,6 @@ public abstract class ExecutorHandler {
      * @param runnigTask
      * @throws ExecutorException
      */
-    public abstract void execute(ShardingContext shardingContext, Task runnigTask) throws ExecutorException;
+    public abstract void execute(ShardingContext shardingContext, Task runnigTask);
 
 }
