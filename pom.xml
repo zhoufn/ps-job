@@ -27,6 +27,7 @@
         <lombok.version>1.16.18</lombok.version>
         <common-lang3.version>3.4</common-lang3.version>
         <common-io.version>2.4</common-io.version>
+        <common-compress.version>1.14</common-compress.version>
     </properties>
 
     <dependencyManagement>
@@ -92,6 +93,11 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-configuration-metadata</artifactId>
                 <version>${springboot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-compress</artifactId>
+                <version>${common-compress.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
