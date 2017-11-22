@@ -12,8 +12,8 @@
 ## 基础概念
 ### MonitorHandler监控策略
 * 用户自定义的监控策略，需要继承MonitorHandler抽象类。
-* _boolean isDown(Task runningTask)_ 判断当前执行中的任务是否完成，返回true标识完成。
-* _int process(Task runningTask)_ 获取当前执行中的任务的执行进度。
+* _int getTotalShardTaskCount(Task runningTask)_ 获取当前执行任务对应的ShardTask总数。
+* _int getDownShardTaskCount(Task runningTask)_ 获取当前执行任务对应完成的ShardTask数。
 * _void createReport(Task runningTask)_ 在isDown为true时被触发，生成任务报告。
 ### SchedulerHandler调度策略
 * 用户自定义的分片策略，需要继承Scheduler抽象类。
@@ -23,6 +23,7 @@
 * 任务是由MonitorHandler、SchedulerHandler和ExecutorHandler组成，SchedulerHandler实现Task的切割（切割后为ShardTask），ExecutorHandler负责切割后任务的执行，MonitorHandler实现整个Task的监控跟踪。
 ### ShardTask分片任务
 * 分片任务是由Task被SchedulerHandler切割后获取到，由ExecutorHandler负责执行。
+* 使用者需要根据具体的业务扩展此类，并且持久化。
 ## 使用方式
 * 自定义监控类：继承基础类MonitorHandler，同时使用@Component将其组件化，使用@IMonitor为其命名，每个Task的Monitor对应的@IMonitor的name禁止冲突。
 ## 细节说明

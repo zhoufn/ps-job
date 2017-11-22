@@ -3,7 +3,6 @@ package org.ps.platform.core.handler;
 import org.ps.platform.core.Task;
 import org.ps.platform.core.exception.MonitorException;
 import org.ps.platform.core.exception.PSException;
-import org.ps.platform.core.exception.ProcessException;
 import org.ps.platform.core.exception.ReportException;
 
 /**
@@ -12,34 +11,52 @@ import org.ps.platform.core.exception.ReportException;
 public abstract class MonitorHandler {
 
     /**
+     * 当前监控的Task
+     */
+    protected Task currentTask;
+
+    /**
+     * ShardTask总数
+     */
+    protected int totalShardTaskCount;
+
+    /**
+     * 已完成的ShardTask的数量
+     */
+    protected int downShardTaskCount;
+
+    /**
      * 周期监控
      * @param runningTask
      * return Task是否已完成，true：完成，false：未完成。
      */
     public boolean monitor(Task runningTask) throws PSException{
-        //更新进度
-        runningTask.setProcess(this.process(runningTask));
-        boolean flag = this.isDown(runningTask);
-        if(flag){
-            //生成报告
-            this.createReport(runningTask);
+        if(this.currentTask == null || !this.currentTask.getId().equals(runningTask.getId())){
+            this.totalShardTaskCount = this.getTotalShardTaskCount(runningTask);
+            this.currentTask = runningTask;
         }
-        return flag;
+        this.downShardTaskCount = this.getDownShardTaskCount(this.currentTask);
+        runningTask.setProcess(this.downShardTaskCount / this.totalShardTaskCount);
+        if(this.totalShardTaskCount == this.downShardTaskCount){
+            this.createReport(this.currentTask);
+            return true;
+        }
+        return false;
     }
 
 
     /**
-     * Monitor周期性调用
-     * @return Task是否已完成，true：完成，false：未完成。
+     * 获取ShardTask总数
+     * @throws MonitorException
      */
-    public abstract boolean isDown(Task runningTask) throws MonitorException;
+    public abstract int getTotalShardTaskCount(Task runningTask) throws MonitorException;
 
     /**
-     * Monitor周期调用生成进度
-     * @param runningTask
-     * @return
+     * 获取完成的ShardTask的数量
+     * @throws MonitorException
      */
-    public abstract int process(Task runningTask) throws ProcessException;
+    public abstract int getDownShardTaskCount(Task runningTask) throws MonitorException;
+
 
     /**
      * 生成任务报告

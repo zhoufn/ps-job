@@ -3,7 +3,6 @@ package org.ps.example.demo01;
 import org.ps.platform.core.Task;
 import org.ps.platform.core.annotation.IMonitor;
 import org.ps.platform.core.exception.MonitorException;
-import org.ps.platform.core.exception.ProcessException;
 import org.ps.platform.core.exception.ReportException;
 import org.ps.platform.core.handler.MonitorHandler;
 import org.springframework.stereotype.Component;
@@ -13,27 +12,27 @@ import org.springframework.stereotype.Component;
 public class Demo01MonitorHandler extends MonitorHandler {
 
     /**
-     * Monitor周期性调用
+     * 获取ShardTask总数
      *
      * @param runningTask
-     * @return Task是否已完成，true：完成，false：未完成。
+     * @throws MonitorException
      */
     @Override
-    public boolean isDown(Task runningTask) throws MonitorException {
-        System.out.println("*********** isDown of monitor for : " + runningTask.getId() + " *************");
-        return false;
+    public int getTotalShardTaskCount(Task runningTask) throws MonitorException {
+        System.out.println("**************getTotalShardTaskCount******************");
+        return 100;
     }
 
     /**
-     * Monitor周期调用生成进度
+     * 获取完成的ShardTask的数量
      *
      * @param runningTask
-     * @return
+     * @throws MonitorException
      */
     @Override
-    public int process(Task runningTask) throws ProcessException {
-        System.out.println("*********** process of monitor for : " + runningTask.getId() + " *************");
-        return 0;
+    public int getDownShardTaskCount(Task runningTask) throws MonitorException {
+        System.out.println("**************getDownShardTaskCount******************");
+        return 10;
     }
 
     /**
@@ -43,6 +42,6 @@ public class Demo01MonitorHandler extends MonitorHandler {
      */
     @Override
     public void createReport(Task runningTask) throws ReportException {
-        System.out.println("*********** createReport of monitor for : " + runningTask.getId() + " *************");
+        System.out.println("**************createReport******************");
     }
 }

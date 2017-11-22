@@ -2,6 +2,7 @@ package org.ps.example.demo01;
 
 import org.ps.platform.core.Task;
 import org.ps.platform.core.annotation.IScheduler;
+import org.ps.platform.core.exception.SchedulerException;
 import org.ps.platform.core.handler.SchedulerHandler;
 import org.springframework.stereotype.Component;
 
@@ -22,7 +23,7 @@ public class Demo01SchedulerHandler extends SchedulerHandler {
      * @return
      */
     @Override
-    protected void scheduler(Task waitingTask) throws Exception {
+    protected void scheduler(Task waitingTask) throws SchedulerException {
         System.out.println(dataSource);
     }
 }
