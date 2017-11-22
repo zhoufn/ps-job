@@ -24,6 +24,12 @@ public class MonitorJob extends AbstractJob{
         if(runnigTask == null){
             return;
         }
+        /**
+         * 如果任务被暂停
+         */
+        if(runnigTask.isPaused()){
+            return;
+        }
         try {
             MonitorHandler monitorHandler = (MonitorHandler) PsContext.getMonitor(runnigTask.getMonitor());
             boolean isDown = monitorHandler.monitor(runnigTask);

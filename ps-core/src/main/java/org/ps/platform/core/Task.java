@@ -75,6 +75,11 @@ public class Task implements Serializable, Comparable<Task> {
      */
     private int process;
 
+    /**
+     * 是否暂停
+     */
+    private boolean paused = false;
+
 
     /**
      *

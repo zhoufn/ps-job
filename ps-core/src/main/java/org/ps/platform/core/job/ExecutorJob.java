@@ -22,6 +22,10 @@ public class ExecutorJob extends AbstractJob{
         if(runnigTask == null){
             return;
         }
+        //任务被暂停
+        if(runnigTask.isPaused()){
+            return;
+        }
         ExecutorHandler handler = (ExecutorHandler) PsContext.getExecutor(runnigTask.getExecutor());
         handler.execute(shardingContext,runnigTask);
     }
