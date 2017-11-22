@@ -47,7 +47,7 @@ public class UnPackageExecutor extends ExecutorHandler {
     }
 
     @Override
-    public void execute(ShardingContext shardingContext, Task runnigTask) throws ExecutorException {
+    public void execute(ShardingContext shardingContext, Task runnigTask){
         ShardTask shardTask = this.getOneWaitingShardTask(runnigTask, shardingContext.getShardingItem());
         //待解压文件
         String srcFilePath = shardTask.getParamString();
@@ -58,9 +58,6 @@ public class UnPackageExecutor extends ExecutorHandler {
             this.unPackage(shardTask,srcFilePath,destDir);
         }catch (Exception e){
             e.printStackTrace();
-            ExecutorException exception = new ExecutorException();
-            exception.setMessage("解压文件异常。");
-            throw  exception;
         }
     }
 
