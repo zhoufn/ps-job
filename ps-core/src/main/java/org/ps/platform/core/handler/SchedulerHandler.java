@@ -1,6 +1,7 @@
 package org.ps.platform.core.handler;
 
 import org.ps.platform.core.Task;
+import org.ps.platform.core.exception.SchedulerException;
 import org.ps.platform.core.zookeeper.ZookeeperHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -18,11 +19,11 @@ public abstract class SchedulerHandler {
     public void shard(Task waitingTask) {
         try {
             this.scheduler(waitingTask);
-        } catch (Exception e) {
+        } catch (SchedulerException e) {
             e.printStackTrace();
             waitingTask.setEndTime(System.currentTimeMillis());
             waitingTask.setError(true);
-            waitingTask.setErrorMsg("shardTask入库异常。");
+            waitingTask.setErrorMsg(e.getMessage());
             handler.setWaitingTask2Down(waitingTask);
         }
     }
@@ -33,6 +34,6 @@ public abstract class SchedulerHandler {
      * @param waitingTask
      * @return
      */
-    protected abstract void scheduler(Task waitingTask) throws Exception;
+    protected abstract void scheduler(Task waitingTask) throws SchedulerException;
 
 }

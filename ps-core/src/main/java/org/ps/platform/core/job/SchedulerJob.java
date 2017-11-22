@@ -1,11 +1,9 @@
 package org.ps.platform.core.job;
 
 import com.dangdang.ddframe.job.api.ShardingContext;
-import org.apache.commons.lang3.ClassUtils;
 import org.ps.platform.core.PsContext;
 import org.ps.platform.core.Task;
 import org.ps.platform.core.handler.SchedulerHandler;
-import org.ps.platform.core.zookeeper.ZookeeperHandler;
 import org.springframework.stereotype.Component;
 
 /**
@@ -33,16 +31,8 @@ public class SchedulerJob extends AbstractJob{
         /**
          * 获取分片类，执行分片方法
          */
-        try{
-            SchedulerHandler schedulerHandler = (SchedulerHandler) PsContext.getScheduler(waitingJob.getScheduler());
-            schedulerHandler.shard(waitingJob);
-        }catch (Exception e){
-            e.printStackTrace();
-            waitingJob.setEndTime(System.currentTimeMillis());
-            waitingJob.setError(true);
-            waitingJob.setErrorMsg("分片策略执行异常。");
-            handler.setWaitingTask2Down(waitingJob);
-        }
+        SchedulerHandler schedulerHandler = (SchedulerHandler) PsContext.getScheduler(waitingJob.getScheduler());
+        schedulerHandler.shard(waitingJob);
         /**
          * 成功后将此任务转为执行任务
          */
