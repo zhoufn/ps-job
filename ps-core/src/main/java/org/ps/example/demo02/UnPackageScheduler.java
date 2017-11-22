@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import javax.sql.DataSource;
 import java.io.File;
+import java.io.FilenameFilter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -54,6 +55,7 @@ public class UnPackageScheduler extends SchedulerHandler {
             }
             return false;
         });
+
         if (shardTasks.size() > 0) {
             this.insertDatabase(shardTasks);
         }

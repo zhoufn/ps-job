@@ -31,7 +31,7 @@ public class Param implements Serializable{
      */
     public boolean isSrcFile(String fileName){
         for(String suffix : this.srcFileSuffix){
-            if(suffix.equalsIgnoreCase(fileName)){
+            if(fileName.toLowerCase().endsWith(suffix.toLowerCase())){
                 return true;
             }
         }

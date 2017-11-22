@@ -10,6 +10,7 @@ import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
 import org.ps.example.demo02.domain.Param;
 import org.ps.platform.core.ShardTask;
 import org.ps.platform.core.Task;
+import org.ps.platform.core.annotation.IExecutor;
 import org.ps.platform.core.annotation.IScheduler;
 import org.ps.platform.core.exception.ExecutorException;
 import org.ps.platform.core.handler.ExecutorHandler;
@@ -31,7 +32,7 @@ import java.util.Date;
  * 解压执行器
  */
 @Component
-@IScheduler(name = "unPackageExecutor")
+@IExecutor(name = "unPackageExecutor")
 public class UnPackageExecutor extends ExecutorHandler {
 
     @Qualifier("dataSource")
@@ -79,7 +80,7 @@ public class UnPackageExecutor extends ExecutorHandler {
             while (rs.next()) {
                 shardTask = new ShardTask();
                 shardTask.setId(rs.getString("id"));
-                shardTask.setParamString(rs.getString(runningTask.getId()));
+                shardTask.setParentId(runningTask.getId());
                 shardTask.setShardNumber(shardNumber);
                 shardTask.setParamString(rs.getString("paramString"));
                 shardTask.setCreateTime(new Date(rs.getTimestamp("createTime").getTime()));
