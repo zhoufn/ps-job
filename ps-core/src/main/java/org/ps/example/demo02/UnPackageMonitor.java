@@ -70,7 +70,7 @@ public class UnPackageMonitor extends MonitorHandler{
         int count = 0;
         try{
             this.initConnection();
-            PreparedStatement pstmt = connection.prepareStatement("select count(1) as counts from job_shard_task t where t.parentId=? and t.endTime is not null");
+            PreparedStatement pstmt = connection.prepareStatement("select count(1) as totalCount from job_shard_task t where t.parentId=? and t.endTime is not null");
             pstmt.setString(1,runningTask.getId());
             ResultSet rs = pstmt.executeQuery();
             while(rs.next()){
