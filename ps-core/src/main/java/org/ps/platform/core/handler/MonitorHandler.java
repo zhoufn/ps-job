@@ -33,6 +33,11 @@ public abstract class MonitorHandler {
     public boolean monitor(Task runningTask) throws PSException{
         if(this.currentTask == null || !this.currentTask.getId().equals(runningTask.getId())){
             this.totalShardTaskCount = this.getTotalShardTaskCount(runningTask);
+            if(this.totalShardTaskCount == 0){
+                runningTask.setProcess(1f);
+                this.createReport(runningTask);
+                return true;
+            }
             this.currentTask = runningTask;
         }
         this.downShardTaskCount = this.getDownShardTaskCount(this.currentTask);
