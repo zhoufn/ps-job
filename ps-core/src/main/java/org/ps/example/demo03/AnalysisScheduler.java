@@ -18,13 +18,6 @@ import javax.sql.DataSource;
 @IScheduler(name = "analysisScheduler")
 public class AnalysisScheduler extends SchedulerHandler{
 
-    @Qualifier("dataSource")
-    @Autowired
-    private DataSource dataSource;
-
-    @Autowired
-    private Configuration configuration;
-
     @Autowired
     private ScanHandler scanHandler;
     /**
