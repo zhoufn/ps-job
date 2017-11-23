@@ -8,6 +8,7 @@ import org.apache.commons.compress.archivers.tar.TarArchiveInputStream;
 import org.apache.commons.compress.archivers.zip.ZipArchiveInputStream;
 import org.apache.commons.compress.compressors.gzip.GzipCompressorInputStream;
 import org.ps.example.demo02.domain.Param;
+import org.ps.example.demo02.handler.UnCompressHandler;
 import org.ps.platform.core.ShardTask;
 import org.ps.platform.core.Task;
 import org.ps.platform.core.annotation.IExecutor;
@@ -39,6 +40,9 @@ public class UnPackageExecutor extends ExecutorHandler {
 
     private Connection connection;
 
+    @Autowired
+    private UnCompressHandler unCompressHandler;
+
     private void initConnection() throws Exception {
         if (this.connection == null) {
             this.connection = this.dataSource.getConnection();
@@ -48,6 +52,10 @@ public class UnPackageExecutor extends ExecutorHandler {
     @Override
     public void execute(ShardingContext shardingContext, Task runnigTask){
         ShardTask shardTask = this.getOneWaitingShardTask(runnigTask, shardingContext.getShardingItem());
+        if(shardTask == null){
+            return;
+        }
+        System.out.println("*************扫描到ShardTask：" + JSON.toJSONString(shardTask) + "*******************");
         //设置任务开始时间
         this.updateShardTaskTime(shardTask,1);
         //待解压文件
@@ -56,7 +64,7 @@ public class UnPackageExecutor extends ExecutorHandler {
         //解压到的路径
         String destDir = param.getDestFilePath();
         try {
-            this.unPackage(srcFilePath,destDir);
+            this.unCompressHandler.unCompress(srcFilePath,destDir);
         }catch (Exception e){
             e.printStackTrace();
         }finally {
@@ -119,50 +127,5 @@ public class UnPackageExecutor extends ExecutorHandler {
             e.printStackTrace();
         }
         return shardTask;
-    }
-
-
-    /**
-     * 解压文件
-     *
-     * @param srcFilePath
-     * @param destDir
-     * @throws Exception
-     */
-    private void unPackage(String srcFilePath, String destDir) throws Exception {
-        FileInputStream fis = new FileInputStream(new File(srcFilePath));
-        ArchiveInputStream ais = null;
-        if (srcFilePath.endsWith(".zip")) {
-            ais = new ZipArchiveInputStream(fis);
-        } else if (srcFilePath.endsWith(".gz")) {
-            ais = new TarArchiveInputStream(fis);
-        } else if (srcFilePath.endsWith(".tar")) {
-            GzipCompressorInputStream zci = new GzipCompressorInputStream(fis);
-            ais = new TarArchiveInputStream(zci);
-        }
-        ArchiveEntry entry = null;
-        while ((entry = ais.getNextEntry()) != null) {
-            String name = entry.getName();
-            String tempDir = destDir + File.separator + name;
-            if (entry.isDirectory()) {
-                continue;
-            }
-            File tempFile = new File(tempDir);
-            if(!tempFile.exists()){
-                if(!tempFile.getParentFile().exists())
-                    tempFile.getParentFile().mkdirs();
-                tempFile.createNewFile();
-            }
-            OutputStream os = new FileOutputStream(tempFile);
-            int b ;
-            byte[] bytes = new byte[1024];
-            while((b=ais.read(bytes)) != -1){
-                os.write(bytes,0,b);
-            }
-            os.flush();
-            os.close();
-        }
-        ais.close();
-        fis.close();
     }
 }

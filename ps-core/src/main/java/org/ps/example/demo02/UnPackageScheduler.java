@@ -15,7 +15,6 @@ import org.springframework.stereotype.Component;
 import javax.annotation.Resource;
 import javax.sql.DataSource;
 import java.io.File;
-import java.io.FilenameFilter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -42,20 +41,20 @@ public class UnPackageScheduler extends SchedulerHandler {
     protected void scheduler(Task waitingTask) throws SchedulerException {
         Param param = JSON.parseObject(waitingTask.getParamString(), Param.class);
         File srcDir = new File(param.getSrcFilePath());
-        long i = 1;
         List<ShardTask> shardTasks = new ArrayList<>();
         srcDir.list((File dir, String name) -> {
             if (param.isSrcFile(name)) {
+                System.out.println("***********加入任务：" + name + "，当日任务分片：" + ((shardTasks.size() + 1) % this.configuration.getExecutorTotalCount()) + "，总分片数：" + this.configuration.getExecutorTotalCount() + "**************");
                 ShardTask shardTask = new ShardTask();
                 shardTask.setId(StringUtils.createUUID());
                 shardTask.setParentId(waitingTask.getId());
                 shardTask.setParamString(dir + "/" + name);
-                shardTask.setShardNumber((int) (i % this.configuration.getExecutorTotalCount()));
+                shardTask.setShardNumber(((shardTasks.size() + 1) % this.configuration.getExecutorTotalCount()));
                 shardTasks.add(shardTask);
             }
             return false;
         });
-
+        System.out.println("************扫描到任务：" + shardTasks.size() + "个*************");
         if (shardTasks.size() > 0) {
             this.insertDatabase(shardTasks);
         }
@@ -73,11 +72,10 @@ public class UnPackageScheduler extends SchedulerHandler {
                 pstmt.setString(4, shardTask.getParamString());
                 pstmt.addBatch();
                 if (i % 500 == 0) {
-                    pstmt.execute();
-                    pstmt.clearBatch();
+                    pstmt.executeBatch();
                 }
             }
-            pstmt.execute();
+            pstmt.executeBatch();
             pstmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
