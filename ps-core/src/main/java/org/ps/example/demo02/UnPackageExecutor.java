@@ -11,8 +11,6 @@ import org.ps.example.demo02.domain.Param;
 import org.ps.platform.core.ShardTask;
 import org.ps.platform.core.Task;
 import org.ps.platform.core.annotation.IExecutor;
-import org.ps.platform.core.annotation.IScheduler;
-import org.ps.platform.core.exception.ExecutorException;
 import org.ps.platform.core.handler.ExecutorHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -56,7 +54,7 @@ public class UnPackageExecutor extends ExecutorHandler {
         //解压到的路径
         String destDir = param.getDestFilePath();
         try {
-            this.unPackage(shardTask,srcFilePath,destDir);
+            this.unPackage(srcFilePath,destDir);
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -102,13 +100,13 @@ public class UnPackageExecutor extends ExecutorHandler {
      * @param destDir
      * @throws Exception
      */
-    private void unPackage(ShardTask shardTask, String srcFilePath, String destDir) throws Exception {
+    private void unPackage(String srcFilePath, String destDir) throws Exception {
         FileInputStream fis = new FileInputStream(new File(srcFilePath));
         ArchiveInputStream ais = null;
         if (srcFilePath.endsWith(".zip")) {
-            ais = new ZipArchiveInputStream(fis, "GBK");
+            ais = new ZipArchiveInputStream(fis);
         } else if (srcFilePath.endsWith(".gz")) {
-            ais = new TarArchiveInputStream(fis, "GBK");
+            ais = new TarArchiveInputStream(fis);
         } else if (srcFilePath.endsWith(".tar")) {
             GzipCompressorInputStream zci = new GzipCompressorInputStream(fis);
             ais = new TarArchiveInputStream(zci);
@@ -116,10 +114,13 @@ public class UnPackageExecutor extends ExecutorHandler {
         ArchiveEntry entry = null;
         while ((entry = ais.getNextEntry()) != null) {
             String name = entry.getName();
-            String tempDir = destDir + File.separator + shardTask.getId() + File.separator + name;
+            String tempDir = destDir + File.separator + name;
+            if (entry.isDirectory()) {
+                continue;
+            }
             File tempFile = new File(tempDir);
-            if (!tempFile.exists()) {
-                if (!tempFile.getParentFile().exists())
+            if(!tempFile.exists()){
+                if(!tempFile.getParentFile().exists())
                     tempFile.getParentFile().mkdirs();
                 tempFile.createNewFile();
             }
