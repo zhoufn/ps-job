@@ -48,6 +48,8 @@ public class UnPackageExecutor extends ExecutorHandler {
     @Override
     public void execute(ShardingContext shardingContext, Task runnigTask){
         ShardTask shardTask = this.getOneWaitingShardTask(runnigTask, shardingContext.getShardingItem());
+        //设置任务开始时间
+        this.updateShardTaskTime(shardTask,1);
         //待解压文件
         String srcFilePath = shardTask.getParamString();
         Param param = JSON.parseObject(runnigTask.getParamString(), Param.class);
@@ -55,6 +57,33 @@ public class UnPackageExecutor extends ExecutorHandler {
         String destDir = param.getDestFilePath();
         try {
             this.unPackage(srcFilePath,destDir);
+        }catch (Exception e){
+            e.printStackTrace();
+        }finally {
+            //设置任务完成时间
+            this.updateShardTaskTime(shardTask,2);
+        }
+    }
+
+
+    /**
+     * 更新ShardTask时间
+     * @param shardTask
+     * @param type  1:更新启动时间，2：更新完成时间
+     */
+    private void updateShardTaskTime(ShardTask shardTask,int type){
+        try{
+            this.initConnection();
+            String sql = null;
+            if(type == 1){
+                sql = "update job_shard_task t set t.beginTime=now() where t.id=?";
+            }else if(type == 2){
+                sql = "update job_shard_task t set t.endTime=now() where t.id=?";
+            }
+            PreparedStatement pstmt = this.connection.prepareStatement(sql);
+            pstmt.setString(1,shardTask.getId());
+            pstmt.execute();
+            pstmt.close();
         }catch (Exception e){
             e.printStackTrace();
         }
