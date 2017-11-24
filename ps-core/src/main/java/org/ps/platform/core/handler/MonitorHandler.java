@@ -4,11 +4,12 @@ import org.ps.platform.core.Task;
 import org.ps.platform.core.exception.MonitorException;
 import org.ps.platform.core.exception.PSException;
 import org.ps.platform.core.exception.ReportException;
+import org.ps.platform.core.repository.ShardTaskRepository;
 
 /**
  * 监控策略类，Monitor会不间断的调用实现类的监控方法。
  */
-public abstract class MonitorHandler {
+public abstract class MonitorHandler extends Handler{
 
     /**
      * 当前监控的Task
@@ -18,12 +19,12 @@ public abstract class MonitorHandler {
     /**
      * ShardTask总数
      */
-    protected int totalShardTaskCount;
+    protected long totalShardTaskCount;
 
     /**
      * 已完成的ShardTask的数量
      */
-    protected int downShardTaskCount;
+    protected long downShardTaskCount;
 
     /**
      * 周期监控
@@ -49,18 +50,21 @@ public abstract class MonitorHandler {
         return false;
     }
 
-
     /**
      * 获取ShardTask总数
      * @throws MonitorException
      */
-    public abstract int getTotalShardTaskCount(Task runningTask) throws MonitorException;
+    public long getTotalShardTaskCount(Task runningTask) throws MonitorException{
+        return this.getShardTaskRepository().countByParentId(runningTask.getId());
+    }
 
     /**
      * 获取完成的ShardTask的数量
      * @throws MonitorException
      */
-    public abstract int getDownShardTaskCount(Task runningTask) throws MonitorException;
+    public long getDownShardTaskCount(Task runningTask) throws MonitorException{
+        return this.getShardTaskRepository().countByParentIdAndEndTimeNotNull(runningTask.getId());
+    }
 
 
     /**

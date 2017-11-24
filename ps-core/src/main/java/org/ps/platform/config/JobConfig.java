@@ -51,7 +51,7 @@ public abstract class JobConfig {
         //初始化Task结构
         zookeeperHandler.initTaskTree();
         SimpleJob simpleJob = this.getJob();
-        return new SpringJobScheduler(simpleJob, regCenter, getLiteJobConfiguration(simpleJob.getClass(), this.getCron(), this.getShardingTotalCount(), this.getShardingItemParameters()), jobEventConfiguration);
+        return new SpringJobScheduler(simpleJob, regCenter, getLiteJobConfiguration(simpleJob.getClass(), this.getCron(), this.getShardingTotalCount(), this.getShardingItemParameters()));
     }
 
     private LiteJobConfiguration getLiteJobConfiguration(final Class<? extends SimpleJob> jobClass, final String cron, final int shardingTotalCount, final String shardingItemParameters) {
