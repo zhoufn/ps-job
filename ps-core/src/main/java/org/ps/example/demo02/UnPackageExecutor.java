@@ -79,7 +79,7 @@ public class UnPackageExecutor extends ExecutorHandler {
      * @param shardTask
      * @param type  1:更新启动时间，2：更新完成时间
      */
-    private void updateShardTaskTime(ShardTask shardTask,int type){
+    public void updateShardTaskTime(ShardTask shardTask,int type){
         try{
             this.initConnection();
             String sql = null;
@@ -104,7 +104,7 @@ public class UnPackageExecutor extends ExecutorHandler {
      * @param shardNumber
      * @return
      */
-    private ShardTask getOneWaitingShardTask(Task runningTask, int shardNumber) {
+    public ShardTask getOneWaitingShardTask(Task runningTask, int shardNumber) {
         ShardTask shardTask = null;
         try {
             this.initConnection();
