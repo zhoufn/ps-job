@@ -60,10 +60,14 @@ public class ZookeeperHandler {
         return children;
     }
 
+    /**
+     * 新增一个等待任务
+     * @param task
+     */
     public void addWaitingTask(Task task) {
         this.init();
         try {
-            this.client.create().forPath("/" + this.config.getZkNodeTask() + "/" + this.config.getZkNodeRunningTask() + "/" + task.getId(), JSON.toJSONString(task).getBytes());
+            this.client.create().forPath("/" + this.config.getZkNodeTask() + "/" + this.config.getZkNodeWaitintTask() + "/" + task.getId(), JSON.toJSONString(task).getBytes());
         } catch (Exception e) {
             e.printStackTrace();
         }

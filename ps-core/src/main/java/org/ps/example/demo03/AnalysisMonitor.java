@@ -1,11 +1,11 @@
 package org.ps.example.demo03;
 
-import org.ps.example.demo02.UnPackageMonitor;
+import org.ps.example.demo03.domain.AnalysisShardTaskRepository;
 import org.ps.platform.core.Task;
 import org.ps.platform.core.annotation.IMonitor;
-import org.ps.platform.core.exception.MonitorException;
 import org.ps.platform.core.exception.ReportException;
 import org.ps.platform.core.handler.MonitorHandler;
+import org.ps.platform.core.repository.ShardTaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -13,32 +13,17 @@ import org.springframework.stereotype.Component;
 @IMonitor(name = "analysisMonitor")
 public class AnalysisMonitor extends MonitorHandler{
 
-    /**
-     * 使用demo02的monitor
-     */
     @Autowired
-    private UnPackageMonitor monitor;
+    private AnalysisShardTaskRepository repository;
 
     /**
-     * 获取ShardTask总数
+     * 获取JPA接口
      *
-     * @param runningTask
-     * @throws MonitorException
+     * @return
      */
     @Override
-    public int getTotalShardTaskCount(Task runningTask) throws MonitorException {
-       return monitor.getTotalShardTaskCount(runningTask);
-    }
-
-    /**
-     * 获取完成的ShardTask的数量
-     *
-     * @param runningTask
-     * @throws MonitorException
-     */
-    @Override
-    public int getDownShardTaskCount(Task runningTask) throws MonitorException {
-        return monitor.getDownShardTaskCount(runningTask);
+    protected ShardTaskRepository getShardTaskRepository() {
+        return this.repository;
     }
 
     /**

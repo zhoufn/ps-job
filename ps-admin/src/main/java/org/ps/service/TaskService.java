@@ -1,8 +1,10 @@
 package org.ps.service;
 
+import org.ps.domain.Task;
+
 /**
  * Task服务类
  */
 public interface TaskService {
-    void insertWaitingTask();
+    void addTask(Task task);
 }

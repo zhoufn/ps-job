@@ -1,4 +1,4 @@
-package org.ps.example.demo04;
+package org.ps.example.demo01;
 
 import com.dangdang.ddframe.job.api.ShardingContext;
 import org.ps.platform.core.ShardTask;

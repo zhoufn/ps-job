@@ -15,15 +15,8 @@ public class TaskServiceImpl implements TaskService{
     @Autowired
     private ZookeeperHandler zookeeperHandler;
 
-
-    public void insertWaitingTask(){
-        Task task = new Task();
-        task.setId(StringUtils.createUUID());
-        task.setCreateTime(System.currentTimeMillis());
-        task.setMonitor("demoMonitor");
-        task.setScheduler("demoScheduler");
-        task.setExecutor("demoExecutor");
+    @Override
+    public void addTask(Task task) {
         zookeeperHandler.addWaitingTask(task);
     }
-
 }

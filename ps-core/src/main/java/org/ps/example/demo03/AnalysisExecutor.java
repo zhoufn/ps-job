@@ -2,10 +2,12 @@ package org.ps.example.demo03;
 
 import com.dangdang.ddframe.job.api.ShardingContext;
 import org.ps.example.demo02.UnPackageExecutor;
+import org.ps.example.demo03.domain.AnalysisShardTaskRepository;
 import org.ps.platform.core.ShardTask;
 import org.ps.platform.core.Task;
 import org.ps.platform.core.annotation.IExecutor;
 import org.ps.platform.core.handler.ExecutorHandler;
+import org.ps.platform.core.repository.ShardTaskRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -14,23 +16,25 @@ import org.springframework.stereotype.Component;
 public class AnalysisExecutor extends ExecutorHandler{
 
     @Autowired
-    private UnPackageExecutor executor;
+    private AnalysisShardTaskRepository repository;
 
     /**
-     * @param shardingContext
-     * @param runnigTask
+     * @param shardingContext 分片上下文
+     * @param runningTask     运行任务
+     * @param shardTask       分片任务
      */
     @Override
-    public void execute(ShardingContext shardingContext, Task runnigTask) {
-        ShardTask shardTask = executor.getOneWaitingShardTask(runnigTask,shardingContext.getShardingItem());
-        if(shardTask == null){
-            return;
-        }
-        executor.updateShardTaskTime(shardTask,1);
+    public void execute(ShardingContext shardingContext, Task runningTask, ShardTask shardTask) {
 
-        //TODO 解析
-
-        executor.updateShardTaskTime(shardTask,2);
     }
 
+    /**
+     * 获取JPA接口
+     *
+     * @return
+     */
+    @Override
+    protected ShardTaskRepository getShardTaskRepository() {
+        return this.repository;
+    }
 }

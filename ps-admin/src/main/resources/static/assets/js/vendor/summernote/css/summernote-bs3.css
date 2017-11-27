@@ -2222,7 +2222,6 @@ fieldset[disabled] .note-editor .btn-link:focus {
 @font-face {
   font-family: 'Glyphicons Halflings';
   src: url('../fonts/glyphicons-halflings-regular.eot');
-  src: url(http://tattek.com/minimal/assets/js/vendor/summernote/fonts/glyphicons-halflings-regular.eot?#iefixx') format('embedded-opentype'), url('../fonts/glyphicons-halflings-regular.woff') format('woff'), url('../fonts/glyphicons-halflings-regular.ttf') format('truetype'), url(http://tattek.com/minimal/assets/js/vendor/summernote/fonts/glyphicons-halflings-regular.svg#glyphicons_halflingsregularr') format('svg');
 }
 .note-editor .glyphicon {
   position: relative;

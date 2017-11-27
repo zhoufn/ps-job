@@ -1,6 +1,9 @@
 package org.ps.example.demo03.handler;
 
+import org.ps.platform.core.ShardTask;
 import org.ps.platform.core.Task;
+
+import java.util.List;
 
 /**
  * 扫描Handler
@@ -13,7 +16,7 @@ public abstract class ScanHandler {
      * @param srcDir
      * @param suffix
      */
-    public abstract void scan(Task waitingTask,String srcDir, String suffix);
+    public abstract List<ShardTask> scan(Task waitingTask, String srcDir, String suffix);
 
 
 }
