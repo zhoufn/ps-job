@@ -2,7 +2,9 @@ package org.ps.example.demo03;
 
 import com.dangdang.ddframe.job.api.ShardingContext;
 import org.ps.example.demo02.UnPackageExecutor;
+import org.ps.example.demo03.domain.AnalysisShardTask;
 import org.ps.example.demo03.domain.AnalysisShardTaskRepository;
+import org.ps.example.demo03.handler.AnalysisHandler;
 import org.ps.platform.core.ShardTask;
 import org.ps.platform.core.Task;
 import org.ps.platform.core.annotation.IExecutor;
@@ -18,6 +20,9 @@ public class AnalysisExecutor extends ExecutorHandler{
     @Autowired
     private AnalysisShardTaskRepository repository;
 
+    @Autowired
+    private AnalysisHandler analysisHandler;
+
     /**
      * @param shardingContext 分片上下文
      * @param runningTask     运行任务
@@ -25,7 +30,8 @@ public class AnalysisExecutor extends ExecutorHandler{
      */
     @Override
     public void execute(ShardingContext shardingContext, Task runningTask, ShardTask shardTask) {
-
+        AnalysisShardTask analysisShardTask = (AnalysisShardTask) shardTask;
+        String srcFile = analysisShardTask.getParamString();
     }
 
     /**
