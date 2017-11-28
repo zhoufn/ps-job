@@ -50,7 +50,7 @@ public class ShellScanHandler extends ScanHandler {
             InputStreamReader isr = new InputStreamReader(is, "UTF-8");
             BufferedReader br = new BufferedReader(isr);
             String childPath = null;
-            long i = 1;
+            long i = 0;
             while ((childPath = br.readLine()) != null) {
                 long shardNumber = i % this.configuration.getExecutorTotalCount();
                 AnalysisShardTask shardTask = new AnalysisShardTask();
@@ -60,6 +60,7 @@ public class ShellScanHandler extends ScanHandler {
                 shardTask.setParamString(childPath);
                 shardTask.setShardNumber((int)shardNumber);
                 shardTasks.add(shardTask);
+                i++;
             }
         } catch (Exception e) {
             e.printStackTrace();
