@@ -1,6 +1,6 @@
 # PS-JOB 分布式任务管理平台
 基于当当的ElasticJob二次开发的分布式任务管理平台。
-## 原理说明
+## 一、原理说明
 本平台基于当当的ElasticJob开发，主要分为以下三部分：
 * Scheduler：主要职责为从zookeeper节点task/waiting节点下根据Task的sort获取一个待执行的任务，将任务根据Task下的切割策略（SchedulerHandler）进行切割，
              切割后将任务由waiting节点转移到running节点下。
@@ -9,7 +9,7 @@
 ## 包结构说明
 * ps-admin：用于管理任务的UI界面。
 * ps-core：ps平台。
-## 基础概念
+## 二、基础概念
 ### Task任务
 * 任务是由MonitorHandler、SchedulerHandler和ExecutorHandler组成，SchedulerHandler实现Task的切割（切割后为ShardTask），ExecutorHandler负责切割后任务的执行，MonitorHandler实现整个Task的监控跟踪。
 ### ShardTask分片任务
@@ -27,11 +27,11 @@
 * 用户自定义的分片执行策略，需要继承Executor抽象类。
 * _ShardTaskRepository getShardTaskRepository()_ 当前分片任务的JPA。
 * _void execute(ShardingContext shardingContext, Task runningTask, ShardTask shardTask)_ 执行分片业务逻辑。
-## 使用方式
+## 三、使用方式
 * 自定义监控类：继承基础类MonitorHandler，同时使用@Component将其组件化，使用@IMonitor为其命名，每个Task的Monitor对应的@IMonitor的name禁止冲突。
-## 细节说明
+## 四、细节说明
 * Scheduler、Executor、Monitor在启动前，会检查当前zookeeper下的Task结构是否已存在，不存在的话会创建此结构。
-## 问题列表
+## 五、问题列表
 * 如果平台非正常终止，启动时任务怎么处理
 
 
