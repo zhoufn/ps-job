@@ -19,11 +19,6 @@ public class Param {
     private String dtdDir;
 
     /**
-     * 解析规则Id
-     */
-    private String dsId;
-
-    /**
      * 解析规则文件
      */
     private String rolePath;
