@@ -48,7 +48,7 @@ public class TestController {
     public String test01(){
         AnalysisParam param = new AnalysisParam();
         param.setSrcDir("/home/neusoft/ps-job/data/temp");
-        return this.addTask("analysisScheduler",",analysisMonitor","analysisExecutor",JSON.toJSONString(param));
+        return this.addTask("analysisScheduler","analysisMonitor","analysisExecutor",JSON.toJSONString(param));
     }
 
     @RequestMapping("/addDemo04")

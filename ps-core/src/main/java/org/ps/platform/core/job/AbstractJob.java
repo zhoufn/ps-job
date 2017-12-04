@@ -2,7 +2,6 @@ package org.ps.platform.core.job;
 
 import com.dangdang.ddframe.job.api.ShardingContext;
 import com.dangdang.ddframe.job.api.simple.SimpleJob;
-import org.ps.platform.core.PsContext;
 import org.ps.platform.core.Task;
 import org.ps.platform.core.zookeeper.ZookeeperHandler;
 import org.springframework.beans.factory.annotation.Autowired;

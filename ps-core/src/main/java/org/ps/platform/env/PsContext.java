@@ -1,4 +1,4 @@
-package org.ps.platform.core;
+package org.ps.platform.env;
 
 import org.ps.platform.core.annotation.IExecutor;
 import org.ps.platform.core.annotation.IMonitor;

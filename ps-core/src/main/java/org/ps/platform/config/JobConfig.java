@@ -3,12 +3,11 @@ package org.ps.platform.config;
 import com.dangdang.ddframe.job.api.simple.SimpleJob;
 import com.dangdang.ddframe.job.config.JobCoreConfiguration;
 import com.dangdang.ddframe.job.config.simple.SimpleJobConfiguration;
-import com.dangdang.ddframe.job.event.JobEventConfiguration;
 import com.dangdang.ddframe.job.lite.api.JobScheduler;
 import com.dangdang.ddframe.job.lite.config.LiteJobConfiguration;
 import com.dangdang.ddframe.job.lite.spring.api.SpringJobScheduler;
 import com.dangdang.ddframe.job.reg.zookeeper.ZookeeperRegistryCenter;
-import org.ps.platform.core.zookeeper.ZookeeperHandler;
+import org.ps.platform.env.PsEnvironment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.context.annotation.Bean;
@@ -24,11 +23,8 @@ public abstract class JobConfig {
     @Resource
     protected ZookeeperRegistryCenter regCenter;
 
-    @Resource
-    protected JobEventConfiguration jobEventConfiguration;
-
-    @Resource
-    protected ZookeeperHandler zookeeperHandler;
+    @Autowired
+    protected PsEnvironment environment;
 
 
     protected abstract SimpleJob getJob();
@@ -48,8 +44,7 @@ public abstract class JobConfig {
      */
     @Bean(initMethod = "init")
     public JobScheduler simpleJobScheduler() {
-        //初始化Task结构
-        zookeeperHandler.initTaskTree();
+        environment.register();
         SimpleJob simpleJob = this.getJob();
         return new SpringJobScheduler(simpleJob, regCenter, getLiteJobConfiguration(simpleJob.getClass(), this.getCron(), this.getShardingTotalCount(), this.getShardingItemParameters()));
     }

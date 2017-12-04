@@ -28,15 +28,6 @@ public class ZookeeperHandler {
     private String downPath = "/" + Constant.NODE_TASK + "/" + Constant.NODE_TASK_DOWN;
 
     /**
-     * 初始化Task节点
-     */
-    public void initTaskTree() {
-        this.createIfNotExist(runningPath);
-        this.createIfNotExist(waitingPath);
-        this.createIfNotExist(downPath);
-    }
-
-    /**
      * 从TASK节点下获取执行的任务
      *
      * @return
@@ -170,11 +161,14 @@ public class ZookeeperHandler {
      *
      * @param path
      */
-    public void createIfNotExist(String path) {
+    public void createIfNotExist(String path, Object o) {
         try {
             Stat stat = registryCenter.getClient().checkExists().forPath(path);
             if (stat == null) {
-                registryCenter.getClient().create().creatingParentsIfNeeded().forPath(path);
+                if (o == null)
+                    registryCenter.getClient().create().creatingParentsIfNeeded().forPath(path);
+                else
+                    registryCenter.getClient().create().creatingParentsIfNeeded().forPath(path,JSON.toJSONString(o).getBytes());
             }
         } catch (Exception e) {
             e.printStackTrace();
