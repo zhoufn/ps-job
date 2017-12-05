@@ -10,10 +10,10 @@ public abstract class AnalysisHandler {
 
     /**
      * 解析
-     * @param id 规则ID
-     * @param inputStream 带解析文件流
+     * @param xpathConfig 规则文件
+     * @param srcFile 带解析文件
      */
-    public abstract void analysis(String id,InputStream inputStream);
+    public abstract void analysis(String xpathConfig,String srcFile);
 
 
 }

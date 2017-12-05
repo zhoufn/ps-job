@@ -1,7 +1,7 @@
 package org.ps.platform.core.job;
 
 import com.dangdang.ddframe.job.api.ShardingContext;
-import org.ps.platform.core.PsContext;
+import org.ps.platform.env.PsContext;
 import org.ps.platform.core.Task;
 import org.ps.platform.core.handler.ExecutorHandler;
 import org.springframework.stereotype.Component;

@@ -6,6 +6,7 @@ import org.ps.platform.core.Task;
 import org.ps.platform.core.exception.ExecutorException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
@@ -21,7 +22,6 @@ public abstract class ExecutorHandler extends Handler {
      * @param runnigTask
      * @throws ExecutorException
      */
-    @Transactional
     public void execute(ShardingContext shardingContext, Task runnigTask){
         Page<ShardTask> page = this.getShardTaskRepository().findByShardNumberAndParentIdAndEndTimeIsNullOrderByCreateTimeAsc(shardingContext.getShardingItem(),runnigTask.getId(),new PageRequest(0,1));
         if(page == null || page.getTotalElements() == 0){
@@ -31,6 +31,8 @@ public abstract class ExecutorHandler extends Handler {
         if(shardTask == null){
             return;
         }
+        System.out.println(this);
+        System.out.println("**"+this.getShardTaskRepository());
         shardTask.setBeginTime(new Date());
         this.getShardTaskRepository().modifyBeginTimeById(shardTask.getBeginTime(),shardTask.getId());
         this.execute(shardingContext,runnigTask,shardTask);

@@ -5,6 +5,8 @@ package org.ps.platform.core;
  */
 public class Constant {
 
+    public static final String PATH_SEPARATOR = "@-@";
+
     public static final String NODE_SCHEDULER = "scheduler";
 
     public static final String NODE_MONITOR = "monitor";
@@ -18,5 +20,7 @@ public class Constant {
     public static final String NODE_TASK_RUNNING = "running";
 
     public static final String NODE_TASK_DOWN = "down";
+
+    public static final String NODE_ENVIRONMENT = "env";
 
 }

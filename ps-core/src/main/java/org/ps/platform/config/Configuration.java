@@ -12,6 +12,8 @@ import org.springframework.stereotype.Component;
 @Data
 @Component
 public class Configuration {
+    @Value("${server.port}") private String serverPort;
+    @Value("${server.role}") private String serverRole;
     @Value("${regCenter.serverList}") private String regCenterServerList;
     @Value("${regCenter.namespace}") private String regCenterNameSpace;
     @Value("${monitor.cron}") private String monitorCron;

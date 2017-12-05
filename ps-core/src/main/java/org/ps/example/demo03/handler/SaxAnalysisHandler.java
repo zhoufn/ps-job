@@ -10,11 +10,10 @@ import org.springframework.stereotype.Component;
 import org.xml.sax.InputSource;
 
 import java.io.ByteArrayInputStream;
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * 使用apache xpath 流式解析xml
@@ -22,37 +21,13 @@ import java.util.Map;
 @Component
 public class SaxAnalysisHandler extends AnalysisHandler {
 
-
-    private static Map<String, List<Table>> roleMap = new HashMap<>(); //解析规则
-
-    /**
-     * 初始化规则库
-     *
-     * @param id            规则ID
-     * @param roleTableFile 规则配置文件
-     */
-    public static void init(String id, String roleTableFile) {
-        if (roleMap.get(id) == null) {
-            synchronized (SaxAnalysisHandler.class) {
-                if (roleMap.get(id) == null) {
-                    try {
-                        List<Table> tables = initTables(roleTableFile);
-                        roleMap.put(id, tables);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        }
-    }
-
     /**
      * 初始化规则库
      *
      * @param roleTableFile 规则配置文件
      * @return 规则集合
      */
-    private static List<Table> initTables(String roleTableFile) throws Exception {
+    private  List<Table> initTables(String roleTableFile) throws Exception {
         List<Table> tables = new ArrayList<>();
         InputStream is = Thread.currentThread().getContextClassLoader().getResourceAsStream(roleTableFile);
         SAXReader reader = new SAXReader();
@@ -96,11 +71,9 @@ public class SaxAnalysisHandler extends AnalysisHandler {
 
     /**
      * 解析
-     *
-     * @param inputStream
      */
     @Override
-    public void analysis(String id, InputStream inputStream) {
+    public void analysis(String xpathConfig, String srcFile) {
         SAXReader reader = new SAXReader();
         reader.setValidation(false);
         // 忽略DTD检查
@@ -118,7 +91,7 @@ public class SaxAnalysisHandler extends AnalysisHandler {
                 //专利节点
                 if (element.getName().equals("tsip")) {
                     try {
-                        List<Table> roleTables = roleMap.get(id);
+                        List<Table> roleTables = initTables(xpathConfig);
                         //库节点
                         for (Table table : roleTables) {
                             List<Column> columns = table.getColumns();
@@ -157,8 +130,10 @@ public class SaxAnalysisHandler extends AnalysisHandler {
             }
         });
         try {
+            InputStream inputStream = new FileInputStream(srcFile);
             reader.read(inputStream);
-        } catch (DocumentException e) {
+            inputStream.close();
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

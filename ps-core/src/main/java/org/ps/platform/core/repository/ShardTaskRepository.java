@@ -7,6 +7,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -21,9 +23,11 @@ public interface ShardTaskRepository<T extends ShardTask,ID extends Serializable
 
     @Modifying
     @Query("update ShardTask s set s.endTime=?1 where s.id=?2")
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     void modifyEndTimeById(Date endTime,String id);
 
     @Modifying
+    @Transactional(isolation = Isolation.READ_COMMITTED)
     @Query("update ShardTask s set s.beginTime=?1 where s.id=?2")
     void modifyBeginTimeById(Date beginTime,String id);
 
