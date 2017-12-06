@@ -27,7 +27,7 @@ public class ZookeeperHandler {
     public ZookeeperClient client;
 
 
-    @Bean(initMethod = "init",destroyMethod = "destory")
+    @Bean(initMethod = "init",destroyMethod = "destroy")
     public ZookeeperClient createBean(@Value("${regCenter.serverList}") final String serverLists,
                                       @Value("${regCenter.namespace}") final String namespace,
                                       @Value("${regCenter.sessionTimeoutMilliseconds}") final int sessionTimeout,
@@ -75,7 +75,7 @@ public class ZookeeperHandler {
         /**
          * 销毁方法
          */
-        public void destory(){
+        public void destroy(){
             if(this.client != null){
                 this.client.close();
             }
