@@ -1,76 +1,120 @@
 package org.ps.handler;
 
-import com.alibaba.fastjson.JSON;
+import lombok.Getter;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
-import org.apache.curator.retry.ExponentialBackoffRetry;
-import org.ps.domain.Config;
-import org.ps.domain.Task;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
- * 操作zookeeper的Handler
+ * zookeeper操作类
  */
-@Repository
+@Configuration
+@Component
 public class ZookeeperHandler {
 
+
     @Autowired
-    private Config config;
+    @Getter
+    public ZookeeperClient client;
 
-    private CuratorFramework client;
 
-    public ZookeeperHandler() {
-
+    @Bean(initMethod = "init",destroyMethod = "destory")
+    public ZookeeperClient createBean(@Value("${regCenter.serverList}") final String serverLists,
+                                      @Value("${regCenter.namespace}") final String namespace,
+                                      @Value("${regCenter.sessionTimeoutMilliseconds}") final int sessionTimeout,
+                                      @Value("${regCenter.connectionTimeoutMilliseconds}") final int connectionTimeout){
+        return new ZookeeperClient(serverLists,sessionTimeout,connectionTimeout,namespace);
     }
 
-    /**
-     * 初始化方法
-     */
-    public void init() {
-        if (client == null) {
+
+    public class ZookeeperClient{
+
+        private String serverLists;
+
+        private int sessionTimeout;
+
+        private int connectionTimeout;
+
+        private String namespace;
+
+        public ZookeeperClient(String serverLists, int sessionTimeout, int connectionTimeout, String namespace) {
+            this.serverLists = serverLists;
+            this.sessionTimeout = sessionTimeout;
+            this.connectionTimeout = connectionTimeout;
+            this.namespace = namespace;
+        }
+
+        private CuratorFramework client;
+
+        /**
+         * 初始化方法
+         */
+        public void init() {
             CuratorFrameworkFactory.Builder builder = CuratorFrameworkFactory.builder()
-                    .connectString(this.config.getRegCenterServerList())
-                    .retryPolicy(new ExponentialBackoffRetry(1000, 3))
-                    .namespace(this.config.getRegCenterNameSpace());
-            builder.sessionTimeoutMs(2000);
-            builder.connectionTimeoutMs(3000);
+                    .connectString(serverLists)
+                    .sessionTimeoutMs(sessionTimeout)
+                    .connectionTimeoutMs(connectionTimeout)
+                    .namespace(namespace);
             client = builder.build();
             client.start();
         }
-    }
 
-    /**
-     * 返回指定节点下的子节点
-     *
-     * @param path
-     * @return
-     */
-    public List<String> getChildren(String path) {
-        this.init();
-        List<String> children = null;
-        try {
-            children = this.client.getChildren().forPath(path);
-        } catch (Exception e) {
-            e.printStackTrace();
+        /**
+         * 销毁方法
+         */
+        public void destory(){
+            if(this.client != null){
+                this.client.close();
+            }
         }
-        return children;
-    }
 
-    /**
-     * 新增一个等待任务
-     * @param task
-     */
-    public void addWaitingTask(Task task) {
-        this.init();
-        try {
-            this.client.create().forPath("/" + this.config.getZkNodeTask() + "/" + this.config.getZkNodeWaitintTask() + "/" + task.getId(), JSON.toJSONString(task).getBytes());
-        } catch (Exception e) {
-            e.printStackTrace();
+        /**
+         * 返回指定节点下的子节点
+         * @param path
+         * @return
+         */
+        public List<String> getChildren(String path) throws Exception {
+            return this.client.getChildren().forPath(path);
+        }
+
+        /**
+         * 返回指定节点下的子节点及子节点的数据
+         * @param path
+         * @return
+         */
+        public HashMap<String, String> getChildrenWithData(String path) throws Exception {
+            HashMap<String, String> map = new HashMap();
+            List<String> children = this.getChildren(path);
+            if (children != null && children.size() > 0) {
+                for (String child : children) {
+                    String data = this.getDataForPath(path + "/" +child);
+                    if(data != null){
+                        map.put(child,data);
+                    }
+                }
+            }
+            return map;
+        }
+
+        /**
+         * 返回指定节点的数据
+         * @param path
+         * @return
+         * @throws Exception
+         */
+        public String getDataForPath(String path) throws Exception {
+            byte[] data = this.client.getData().forPath(path);
+            if (data != null) {
+                return new String(data);
+            }
+            return null;
         }
     }
-
 }

@@ -14,7 +14,6 @@ import java.io.Serializable;
 @RequiredArgsConstructor
 public class Task implements Serializable, Comparable<Task> {
 
-
     /**
      * id,uuid
      */
@@ -74,7 +73,12 @@ public class Task implements Serializable, Comparable<Task> {
     /**
      * 进度信息
      */
-    private int process;
+    private float process;
+
+    /**
+     * 是否暂停
+     */
+    private boolean paused = false;
 
 
     /**

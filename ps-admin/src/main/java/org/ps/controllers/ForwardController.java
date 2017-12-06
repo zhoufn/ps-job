@@ -18,9 +18,9 @@ public class ForwardController {
 
 
     @RequestMapping("/index")
-    public String index(){return "admin/index";}
+    public String toIndex(){return "admin/index";}
 
-    @RequestMapping("/tasks")
-    public String tasks(){return "admin/tasks";}
+    @RequestMapping("/task")
+    public String toTask(){return "admin/task";}
 
 }

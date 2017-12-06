@@ -10,13 +10,9 @@
     <link rel="stylesheet" type="text/css" th:href="@{/assets/css/vendor/animate/animate.min.css}" />
     <link rel="stylesheet" type="text/css" th:href="@{/assets/js/vendor/mmenu/css/jquery.mmenu.all.css}" />
     <link rel="stylesheet" type="text/css" th:href="@{/assets/js/vendor/videobackground/css/jquery.videobackground.css}" />
-    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/vendor/bootstrap-checkbox.css}" />
-    <link rel="stylesheet" type="text/css" th:href="@{/assets/js/vendor/morris/css/morris.css}" />
     <link rel="stylesheet" type="text/css" th:href="@{/assets/js/vendor/tabdrop/css/tabdrop.css}" />
     <link rel="stylesheet" type="text/css" th:href="@{/assets/js/vendor/summernote/css/summernote.css}" />
     <link rel="stylesheet" type="text/css" th:href="@{/assets/js/vendor/summernote/css/summernote-bs3.css}" />
-    <link rel="stylesheet" type="text/css" th:href="@{/assets/js/vendor/chosen/css/chosen.min.css}" />
-    <link rel="stylesheet" type="text/css" th:href="@{/assets/js/vendor/chosen/css/chosen-bootstrap.css}" />
     <link rel="stylesheet" type="text/css" th:href="@{/assets/css/minimal.css}" />
     <style type="text/css">
         *{font-family: "Microsoft YaHei";}
@@ -46,13 +42,6 @@
             <!-- page header -->
             <div class="pageheader">
                 <h2><i class="fa fa-tachometer"></i> Dashboard <span>平台运行情况</span></h2>
-                <div class="breadcrumbs">
-                    <ol class="breadcrumb">
-                        <li>You are here</li>
-                        <li><a href="index.html">Minimal</a></li>
-                        <li class="active">Dashboard</li>
-                    </ol>
-                </div>
             </div>
             <!-- /page header -->
             <!-- content main container -->
@@ -63,16 +52,16 @@
                         <div class="card card-redbrown hover">
                             <div class="front">
                                 <div class="media">
-                                    <span class="pull-left"> <i class="fa fa-users media-object"></i> </span>
+                                    <span class="pull-left"> <i class="fa  fa-sitemap media-object"></i> </span>
                                     <div class="media-body">
                                         <small>调度节点</small>
-                                        <h2 class="media-heading animate-number" data-value="3659" data-animation-duration="1500">0</h2>
+                                        <h2 class="media-heading animate-number">1/1</h2>
                                     </div>
                                 </div>
                                 <div class="progress-list">
                                     <div class="details">
                                         <div class="title">
-                                            存活率 %
+                                            平均负载 %
                                         </div>
                                     </div>
                                     <div class="status pull-right bg-transparent-black-1">
@@ -93,16 +82,16 @@
                         <div class="card card-blue hover">
                             <div class="front">
                                 <div class="media">
-                                    <span class="pull-left"> <i class="fa fa-shopping-cart media-object"></i> </span>
+                                    <span class="pull-left"> <i class="fa fa-medkit media-object"></i> </span>
                                     <div class="media-body">
                                         <small>监控节点</small>
-                                        <h2 class="media-heading animate-number" data-value="19214" data-animation-duration="1500">0</h2>
+                                        <h2 class="media-heading animate-number">1/1</h2>
                                     </div>
                                 </div>
                                 <div class="progress-list">
                                     <div class="details">
                                         <div class="title">
-                                            存活率 %
+                                            平均负载 %
                                         </div>
                                     </div>
                                     <div class="status pull-right bg-transparent-black-1">
@@ -123,16 +112,16 @@
                         <div class="card card-greensea hover">
                             <div class="front">
                                 <div class="media">
-                                    <span class="pull-left"> <i class="fa fa-usd media-object"></i> </span>
+                                    <span class="pull-left"> <i class="fa fa-cubes media-object"></i> </span>
                                     <div class="media-body">
                                         <small>工作节点</small>
-                                        <h2 class="media-heading animate-number" data-value="169541" data-animation-duration="1500">0</h2>
+                                        <h2 class="media-heading animate-number">1/1</h2>
                                     </div>
                                 </div>
                                 <div class="progress-list">
                                     <div class="details">
                                         <div class="title">
-                                            存活率 %
+                                            平均负载 %
                                         </div>
                                     </div>
                                     <div class="status pull-right bg-transparent-black-1">
@@ -153,10 +142,10 @@
                         <div class="card card-slategray hover">
                             <div class="front">
                                 <div class="media">
-                                    <span class="pull-left"> <i class="fa fa-eye media-object"></i> </span>
+                                    <span class="pull-left"> <i class="fa fa-tasks media-object"></i> </span>
                                     <div class="media-body">
                                         <small>当前执行Task</small>
-                                        <h2 class="media-heading animate-number" data-value="9634" data-animation-duration="1500">0</h2>
+                                        <h2 class="media-heading animate-number">1</h2>
                                     </div>
                                 </div>
                                 <div class="progress-list">
@@ -189,7 +178,7 @@
                         <section class="tile transparent">
                             <!-- tile header -->
                             <div class="tile-header color transparent-black textured rounded-top-corners">
-                                <h1><strong>ShardTask of RunningTask</strong></h1>
+                                <h1>分片执行情况</h1>
                                 <div class="controls">
                                     <a href="#" class="refresh"><i class="fa fa-refresh"></i></a>
                                     <a href="#" class="remove"><i class="fa fa-times"></i></a>
@@ -203,126 +192,11 @@
                             <!-- /tile widget -->
                         </section>
                         <!-- /tile -->
-                        <section class="tile color transparent">
-                            <!-- tile header -->
-                            <div class="tile-header color  transparent-white rounded-top-corners">
-                                <h1><strong>Server Load</strong></h1>
-                                <div class="controls">
-                                    <a href="#" class="refresh"><i class="fa fa-refresh"></i></a>
-                                    <a href="#" class="remove"><i class="fa fa-times"></i></a>
-                                </div>
-                            </div>
-                            <!-- /tile header -->
-                            <div class="tile-body color transparent-white rounded-bottom-corners">
-                                <div class="row">
-                                    <ul class="inline">
-                                        <li class="col-md-8 col-sm-12 col-xs-12 text-center">
-                                            <div class="inner-container inline">
-                                                <div data-percent="10" data-size="140" class="pie-chart inline" data-scale-color="false" data-track-color="rgba(0,0,0,0)" data-bar-color="#ffffff" data-line-width="5">
-                                                    <div class="text-center">
-                                                        <i class="fa fa-usd fa-5x"></i>
-                                                    </div>
-                                                </div>
-                                                <p class="chart-overall text-center medium-thin uppercase"><span class="big-medium animate-number" data-value="6175" data-animation-duration="2500">0</span> Sales</p>
-                                            </div>
-                                            <div class="inner-container inline">
-                                                <div data-percent="85" data-size="140" class="pie-chart inline" data-scale-color="false" data-track-color="rgba(0,0,0,0)" data-bar-color="rgba(0,0,0,.4)" data-line-width="5">
-                                                    <div class="text-center">
-                                                        <span><i class="fa fa-eye fa-5x color-transparent-black"></i></span>
-                                                    </div>
-                                                </div>
-                                                <p class="chart-overall text-center medium-thin uppercase color-transparent-black"> <span class="big-medium animate-number" data-value="8213" data-animation-duration="2500">0</span> Visits</p>
-                                            </div> </li>
-                                        <li class="col-md-4 col-sm-12 col-xs-12"> <h4 class="underline"><strong>Visitors</strong> Statistics</h4>
-                                            <ul class="progress-list">
-                                                <li>
-                                                    <div class="details">
-                                                        <div class="title">
-                                                            America
-                                                        </div>
-                                                        <div class="description">
-                                                            Visitors from America
-                                                        </div>
-                                                    </div>
-                                                    <div class="status pull-right">
-                                                        <span class="animate-number" data-value="40" data-animation-duration="1500">0</span>%
-                                                    </div>
-                                                    <div class="clearfix"></div>
-                                                    <div class="progress progress-little">
-                                                        <div class="progress-bar progress-bar-green animate-progress-bar" data-percentage="40%" style="width: 0%;"></div>
-                                                    </div> </li>
-                                                <li>
-                                                    <div class="details">
-                                                        <div class="title">
-                                                            Europe
-                                                        </div>
-                                                        <div class="description">
-                                                            Visitors from Europe
-                                                        </div>
-                                                    </div>
-                                                    <div class="status pull-right">
-                                                        <span class="animate-number" data-value="38" data-animation-duration="1000">0</span>%
-                                                    </div>
-                                                    <div class="clearfix"></div>
-                                                    <div class="progress progress-little">
-                                                        <div class="progress-bar progress-bar-cyan animate-progress-bar" data-percentage="35%" style="width: 0%;"></div>
-                                                    </div> </li>
-                                                <li>
-                                                    <div class="details">
-                                                        <div class="title">
-                                                            Asia
-                                                        </div>
-                                                        <div class="description">
-                                                            Visitors from Asia
-                                                        </div>
-                                                    </div>
-                                                    <div class="status pull-right">
-                                                        <span class="animate-number" data-value="12" data-animation-duration="800">0</span>%
-                                                    </div>
-                                                    <div class="clearfix"></div>
-                                                    <div class="progress progress-little">
-                                                        <div class="progress-bar progress-bar-amethyst animate-progress-bar" data-percentage="12%" style="width: 0%;"></div>
-                                                    </div> </li>
-                                                <li>
-                                                    <div class="details">
-                                                        <div class="title">
-                                                            Africa
-                                                        </div>
-                                                        <div class="description">
-                                                            Visitors from Africa
-                                                        </div>
-                                                    </div>
-                                                    <div class="status pull-right">
-                                                        <span class="animate-number" data-value="7" data-animation-duration="600">0</span>%
-                                                    </div>
-                                                    <div class="clearfix"></div>
-                                                    <div class="progress progress-little">
-                                                        <div class="progress-bar progress-bar-orange animate-progress-bar" data-percentage="7%" style="width: 0%;"></div>
-                                                    </div> </li>
-                                                <li>
-                                                    <div class="details">
-                                                        <div class="title">
-                                                            Other
-                                                        </div>
-                                                    </div>
-                                                    <div class="status pull-right">
-                                                        <span class="animate-number" data-value="6" data-animation-duration="400">0</span>%
-                                                    </div>
-                                                    <div class="clearfix"></div>
-                                                    <div class="progress progress-little">
-                                                        <div class="progress-bar progress-bar-red animate-progress-bar" data-percentage="6%" style="width: 0%;"></div>
-                                                    </div> </li>
-                                            </ul> </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <!-- /tile body -->
-                        </section>
                         <!-- tile -->
                         <section class="tile color transparent-black">
                             <!-- tile header -->
                             <div class="tile-header">
-                                <h1><strong>WaitingTask</strong></h1>
+                                <h1>等待任务列表</h1>
                                 <div class="search">
                                     <input type="text" placeholder="Search..." />
                                 </div>
@@ -481,14 +355,10 @@
 <script type="text/javascript" src="assets/js/vendor/blockui/jquery.blockUI.js"></script>
 <script src="assets/js/vendor/flot/jquery.flot.min.js"></script>
 <script src="assets/js/vendor/flot/jquery.flot.time.min.js"></script>
-<script src="assets/js/vendor/flot/jquery.flot.selection.min.js"></script>
 <script src="assets/js/vendor/flot/jquery.flot.animator.min.js"></script>
 <script src="assets/js/vendor/flot/jquery.flot.orderBars.js"></script>
-<script src="assets/js/vendor/easypiechart/jquery.easypiechart.min.js"></script>
-<script src="assets/js/vendor/morris/morris.min.js"></script>
 <script src="assets/js/vendor/tabdrop/bootstrap-tabdrop.min.js"></script>
 <script src="assets/js/vendor/summernote/summernote.min.js"></script>
-<script src="assets/js/vendor/chosen/chosen.jquery.min.js"></script>
 <script src="assets/js/minimal.min.js"></script>
 <script>
     $(function () {
@@ -641,9 +511,6 @@
             "z-index": "99999"
         }).appendTo("body");
 
-        //generate actual pie charts
-        $('.pie-chart').easyPieChart();
-
 
         //sparkline charts
         $('#projectbar1').sparkline('html', {type: 'bar', barColor: '#22beef', barWidth: 4, height: 20});
@@ -683,10 +550,6 @@
             ],
             height: 143   //set editable area's height
         });
-
-        //multiselect input
-        $(".chosen-select").chosen({disable_search_threshold: 10});
-
     })
 
 </script>

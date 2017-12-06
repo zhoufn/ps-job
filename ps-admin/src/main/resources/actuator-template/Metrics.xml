@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<template>
+    <property name="heap.committed">
+        <descript></descript>
+    </property>
+    <property name="heap.used">
+        <descript></descript>
+    </property>
+    <property name="classes">
+        <descript></descript>
+    </property>
+    <property name="httpsessions.max">
+        <descript></descript>
+    </property>
+    <property name="systemload.average">
+        <descript></descript>
+    </property>
+    <property name="mem.free">
+        <descript></descript>
+    </property>
+    <property name="processors">
+        <descript></descript>
+    </property>
+    <property name="gc.ps_marksweep.count">
+        <descript></descript>
+    </property>
+    <property name="threads.peak">
+        <descript></descript>
+    </property>
+    <property name="counter.status.200.metrics">
+        <descript></descript>
+    </property>
+    <property name="mem">
+        <descript></descript>
+    </property>
+    <property name="datasource.primary.usage">
+        <descript></descript>
+    </property>
+    <property name="nonheap.used">
+        <descript></descript>
+    </property>
+    <property name="heap">
+        <descript></descript>
+    </property>
+    <property name="gc.ps_marksweep.time">
+        <descript></descript>
+    </property>
+    <property name="datasource.primary.active">
+        <descript></descript>
+    </property>
+    <property name="nonheap.init">
+        <descript></descript>
+    </property>
+    <property name="gauge.response.metrics">
+        <descript></descript>
+    </property>
+    <property name="threads">
+        <descript></descript>
+    </property>
+    <property name="heap.init">
+        <descript></descript>
+    </property>
+    <property name="threads.totalStarted">
+        <descript></descript>
+    </property>
+    <property name="gc.ps_scavenge.count">
+        <descript></descript>
+    </property>
+    <property name="uptime">
+        <descript></descript>
+    </property>
+    <property name="nonheap">
+        <descript></descript>
+    </property>
+    <property name="instance.uptime">
+        <descript></descript>
+    </property>
+    <property name="httpsessions.active">
+        <descript></descript>
+    </property>
+    <property name="nonheap.committed">
+        <descript></descript>
+    </property>
+    <property name="threads.daemon">
+        <descript></descript>
+    </property>
+    <property name="classes.unloaded">
+        <descript></descript>
+    </property>
+    <property name="classes.loaded">
+        <descript></descript>
+    </property>
+    <property name="gc.ps_scavenge.time">
+        <descript></descript>
+    </property>
+</template>
