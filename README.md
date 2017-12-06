@@ -6,9 +6,7 @@
              切割后将任务由waiting节点转移到running节点下。
 * Executor：主要职责为从zookeeper节点task/running节点下获取正在执行的任务，根据自身的分片Id获取分片任务（ShardTask），依据Task下的执行策略（ExecutorHandler）执行。
 * Monitor：主要职责为监控zookeeper节点task/running节点下正在执行的任务，重复的调用Task下指定的监控策略（MonitorHandler）进行监控。
-## 二、包结构说明
-* ps-admin：用于管理任务的UI界面。
-* ps-core：ps平台。
+## [二、包结构说明](https://github.com/zhoufn/ps/blob/master/about/html/structure.md)
 ## 三、基础概念
 ### Task任务
 * 任务是由MonitorHandler、SchedulerHandler和ExecutorHandler组成，SchedulerHandler实现Task的切割（切割后为ShardTask），ExecutorHandler负责切割后任务的执行，MonitorHandler实现整个Task的监控跟踪。
