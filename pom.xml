@@ -27,6 +27,8 @@
         <common-lang3.version>3.4</common-lang3.version>
         <common-io.version>2.4</common-io.version>
         <common-compress.version>1.14</common-compress.version>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
 
     <parent>
