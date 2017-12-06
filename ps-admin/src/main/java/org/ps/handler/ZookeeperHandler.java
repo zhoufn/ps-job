@@ -36,6 +36,9 @@ public class ZookeeperHandler {
     }
 
 
+    /**
+     * zookeeper操作client
+     */
     public class ZookeeperClient{
 
         private String serverLists;
