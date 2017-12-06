@@ -3,6 +3,8 @@ package org.ps.handler;
 import lombok.Getter;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.CuratorFrameworkFactory;
+import org.apache.curator.retry.RetryOneTime;
+import org.apache.zookeeper.data.Stat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -61,6 +63,7 @@ public class ZookeeperHandler {
                     .connectString(serverLists)
                     .sessionTimeoutMs(sessionTimeout)
                     .connectionTimeoutMs(connectionTimeout)
+                    .retryPolicy(new RetryOneTime(1000))
                     .namespace(namespace);
             client = builder.build();
             client.start();
@@ -115,6 +118,29 @@ public class ZookeeperHandler {
                 return new String(data);
             }
             return null;
+        }
+
+        /**
+         * 更新指定节点数据
+         * @param path
+         * @param data
+         * @param flag 如果节点不存在，是否创建节点
+         * @return 是否成功
+         * @throws Exception
+         */
+        public boolean updateDataForPath(String path,String data,boolean flag) throws Exception{
+            Stat stat = this.client.checkExists().forPath(path);
+            if(stat == null){
+                if(flag){
+                    this.client.create().forPath(path,data.getBytes());
+                    return true;
+                }else{
+                    return false;
+                }
+            }else{
+                this.client.setData().forPath(path,data.getBytes());
+                return true;
+            }
         }
     }
 }
