@@ -23,4 +23,12 @@ public class Constant {
 
     public static final String NODE_ENVIRONMENT = "env";
 
+    public static final String URL_PATH_METRICS = "metrics";
+
+    public static final String SERVER_ROLE_KEY = "serverRole";
+
+    public static final String NODE_INSTANCES = "instances";
+
+
+
 }

@@ -19,7 +19,6 @@ public class Task implements Serializable, Comparable<Task> {
      */
     @NotNull
     private String id;
-
     /**
      * 创建时间
      */
@@ -48,7 +47,6 @@ public class Task implements Serializable, Comparable<Task> {
      * 附加参数
      */
     private String paramString;
-
     /**
      * 优先级
      */
