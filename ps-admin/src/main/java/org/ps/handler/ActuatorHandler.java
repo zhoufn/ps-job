@@ -27,9 +27,14 @@ public class ActuatorHandler {
     public ZookeeperHandler zookeeperHandler;
 
 
+    /**
+     * 获取调度器、监控器、执行器监控数据
+     * @return 服务监控对象
+     * @throws Exception
+     */
     public ServerStatus getServerStatus() throws Exception{
         Map<String, String> serverMap = zookeeperHandler.getClient().getChildrenWithData("/" + Constant.NODE_ENVIRONMENT);
-        List<String> scheduleServers = null, executorServers = null, monitorServers = null;
+        List<String> scheduleServers, executorServers, monitorServers;
         try{
             scheduleServers = zookeeperHandler.getClient().getChildren("/" + Constant.NODE_SCHEDULER + "/" + Constant.NODE_INSTANCES);
         }catch(Exception e){
@@ -104,6 +109,11 @@ public class ActuatorHandler {
         return serverStatus;
     }
 
+    /**
+     * 计算负载均衡
+     * @param response 从metrics获取的响应数据
+     * @return
+     */
     private double calculateOverLoad(String response){
         double memFree = getMetricFromResponse(response, "mem.free", Double.class);
         double memTotal = getMetricFromResponse(response, "mem", Double.class);
@@ -112,6 +122,15 @@ public class ActuatorHandler {
         }
         return (memTotal - memFree) / memTotal;
     }
+
+    /**
+     * 从响应数据里获取指定的属性值
+     * @param response 从metrics获取的响应数据
+     * @param key   属性
+     * @param clazz 返回类型class
+     * @param <T>  返回类型
+     * @return
+     */
     private <T> T getMetricFromResponse(String response, String key, Class<T> clazz){
         return JSON.parseObject(response).getObject(key, clazz);
     }
@@ -128,7 +147,13 @@ public class ActuatorHandler {
         }
         return response;
     }
-    private static String DoubleToStringWithFormat(Number n){
+
+    /**
+     * double类型转格式化成string类型
+     * @param n
+     * @return
+     */
+    private static String DoubleToStringWithFormat(double n){
         return String.format("%.0f", n);
     }
     public static void main(String args[]) throws Exception{
