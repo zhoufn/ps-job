@@ -3,6 +3,7 @@ package org.ps.handler;
 import com.alibaba.fastjson.JSON;
 import org.ps.domain.Constant;
 import org.ps.domain.ServerStatus;
+import org.ps.domain.Task;
 import org.ps.domain.UrlData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -24,7 +25,7 @@ public class ActuatorHandler {
 
 
     @Autowired
-    public ZookeeperHandler zookeeperHandler;
+    private ZookeeperHandler zookeeperHandler;
 
 
     /**
@@ -89,24 +90,50 @@ public class ActuatorHandler {
             totalMonitorOL += calculateOverLoad(connectURL(realUrl));
         }
         if(serverStatus.getScheduleLiveCount() != 0){
-            String n = DoubleToStringWithFormat(totalScheduleOL / serverStatus.getScheduleLiveCount() * 100);
+            String n = NumberToStringWithFormat(totalScheduleOL / serverStatus.getScheduleLiveCount() * 100);
             serverStatus.setScheduleOL(n);
         }else{
             serverStatus.setScheduleOL("0");
         }
         if(serverStatus.getExecutorLiveCount() != 0){
-            String n = DoubleToStringWithFormat(totalExecutorOL / serverStatus.getExecutorLiveCount() * 100);
+            String n = NumberToStringWithFormat(totalExecutorOL / serverStatus.getExecutorLiveCount() * 100);
             serverStatus.setExecutorOL(n);
         }else{
             serverStatus.setExecutorOL("0");
         }
         if(serverStatus.getMonitorLiveCount() != 0){
-            String n = DoubleToStringWithFormat(totalMonitorOL / serverStatus.getMonitorLiveCount() * 100);
+            String n = NumberToStringWithFormat(totalMonitorOL / serverStatus.getMonitorLiveCount() * 100);
             serverStatus.setMonitorOL(n);
         }else{
             serverStatus.setMonitorOL("0");
         }
+        Map<String, String> taskRunningMap = zookeeperHandler.getClient().getChildrenWithData("/" + Constant.NODE_TASK + "/" + Constant.NODE_TASK_RUNNING);
+        serverStatus.setTaskProcess("0");
+        for(String key : taskRunningMap.keySet()){
+            serverStatus.setCurrentTaskCount(serverStatus.getCurrentTaskCount() + 1);
+            String dataStr = taskRunningMap.get(key);
+            Class<Task> clazz = Task.class;
+            Task task = JSON.parseObject(dataStr, clazz);
+            serverStatus.setTaskProcess(NumberToStringWithFormat(task.getProcess() * 100));
+        }
         return serverStatus;
+    }
+
+    /**
+     * 从zk获取等待任务集合
+     * @return 等待任务集合
+     * @throws Exception
+     */
+    public List<Task> getWaitingTaskList() throws Exception{
+        Map<String, String> taskWaitingMap = zookeeperHandler.getClient().getChildrenWithData("/" + Constant.NODE_TASK + "/" + Constant.NODE_TASK_RUNNING);
+        List<Task> taskList = new ArrayList<>();
+        for(String key : taskWaitingMap.keySet()){
+            String dataStr = taskWaitingMap.get(key);
+            Class<Task> clazz = Task.class;
+            Task task = JSON.parseObject(dataStr, clazz);
+            taskList.add(task);
+        }
+        return taskList;
     }
 
     /**
@@ -153,11 +180,10 @@ public class ActuatorHandler {
      * @param n
      * @return
      */
-    private static String DoubleToStringWithFormat(double n){
+    private static String NumberToStringWithFormat(Number n){
         return String.format("%.0f", n);
     }
     public static void main(String args[]) throws Exception{
-        //String res = connectURL("http://www.dd.com");
-        //System.out.println(res);
+
     }
 }

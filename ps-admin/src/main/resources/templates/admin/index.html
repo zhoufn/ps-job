@@ -145,7 +145,7 @@
                                     <span class="pull-left"> <i class="fa fa-tasks media-object"></i> </span>
                                     <div class="media-body">
                                         <small>当前执行Task</small>
-                                        <h2 class="media-heading animate-number">1</h2>
+                                        <h2 class="media-heading animate-number" th:text="${serverStatus.currentTaskCount}">1</h2>
                                     </div>
                                 </div>
                                 <div class="progress-list">
@@ -155,11 +155,11 @@
                                         </div>
                                     </div>
                                     <div class="status pull-right bg-transparent-black-1">
-                                        <span class="animate-number" data-value="25" data-animation-duration="1500">0</span>%
+                                        <span class="animate-number" th:attr="data-value=${serverStatus.taskProcess}" data-animation-duration="1500">0</span>%
                                     </div>
                                     <div class="clearfix"></div>
                                     <div class="progress progress-little progress-transparent-black">
-                                        <div class="progress-bar animate-progress-bar" data-percentage="25%"></div>
+                                        <div class="progress-bar animate-progress-bar" th:attr="data-percentage=${serverStatus.taskProcess}+'%'"></div>
                                     </div>
                                 </div>
                             </div>
@@ -212,103 +212,20 @@
                                     <table class="table table-custom table-sortable nomargin">
                                         <thead>
                                         <tr>
-                                            <th class="sortable sort-numeric sort-asc">ID</th>
-                                            <th class="sortable sort-alpha">Project</th>
-                                            <th class="sortable">Priority</th>
-                                            <th class="sortable sort-amount">Status</th>
-                                            <th class="text-right">Chart</th>
+                                            <th class="sortable sort-numeric sort-asc">优先级</th>
+                                            <th class="sortable">调度类</th>
+                                            <th class="sortable">监控类</th>
+                                            <th class="sortable">执行类</th>
+                                            <th class="sortable sort-numeric">创建时间</th>
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr>
-                                            <td>1</td>
-                                            <td>Graphic Layout for client</td>
-                                            <td class="color-red priority">High priority</td>
-                                            <td class="progress-cell">
-                                                <div class="progress-info">
-                                                    <div class="percent">
-                                                        <span class="animate-number" data-value="50" data-animation-duration="1500">0</span>%
-                                                    </div>
-                                                </div>
-                                                <div class="progress progress-little">
-                                                    <div class="progress-bar progress-bar-transparent-white animate-progress-bar" data-percentage="50%"></div>
-                                                </div> </td>
-                                            <td class="text-right"><span id="projectbar1">87,85,42,90,70,55,82,68</span> </td>
-                                        </tr>
-                                        <tr>
-                                            <td>2</td>
-                                            <td>Make website responsive</td>
-                                            <td class="color-green priority">Low priority</td>
-                                            <td class="progress-cell">
-                                                <div class="progress-info">
-                                                    <div class="percent">
-                                                        <span class="animate-number" data-value="13" data-animation-duration="1500">0</span>%
-                                                    </div>
-                                                </div>
-                                                <div class="progress progress-little">
-                                                    <div class="progress-bar progress-bar-transparent-white animate-progress-bar" data-percentage="13%"></div>
-                                                </div> </td>
-                                            <td class="text-right"><span id="projectbar2">87,99,52,93,42,86,51,93</span> </td>
-                                        </tr>
-                                        <tr>
-                                            <td>3</td>
-                                            <td>Clean css/html/js code</td>
-                                            <td class="color-red priority">High priority</td>
-                                            <td class="progress-cell">
-                                                <div class="progress-info">
-                                                    <div class="percent">
-                                                        <span class="animate-number" data-value="76" data-animation-duration="1500">0</span>%
-                                                    </div>
-                                                </div>
-                                                <div class="progress progress-little">
-                                                    <div class="progress-bar progress-bar-transparent-white animate-progress-bar" data-percentage="76%"></div>
-                                                </div> </td>
-                                            <td class="text-right"><span id="projectbar3">74,77,82,91,69,63,46,42</span> </td>
-                                        </tr>
-                                        <tr>
-                                            <td>4</td>
-                                            <td>Database Optimization</td>
-                                            <td class="color-orange priority">Normal priority</td>
-                                            <td class="progress-cell">
-                                                <div class="progress-info">
-                                                    <div class="percent">
-                                                        <span class="animate-number" data-value="38" data-animation-duration="1500">0</span>%
-                                                    </div>
-                                                </div>
-                                                <div class="progress progress-little">
-                                                    <div class="progress-bar progress-bar-transparent-white animate-progress-bar" data-percentage="38%"></div>
-                                                </div> </td>
-                                            <td class="text-right"><span id="projectbar4">52,45,76,74,77,57,65,86</span> </td>
-                                        </tr>
-                                        <tr>
-                                            <td>5</td>
-                                            <td>Database Migration</td>
-                                            <td class="color-green priority">Low priority</td>
-                                            <td class="progress-cell">
-                                                <div class="progress-info">
-                                                    <div class="percent">
-                                                        <span class="animate-number" data-value="9" data-animation-duration="1500">0</span>%
-                                                    </div>
-                                                </div>
-                                                <div class="progress progress-little">
-                                                    <div class="progress-bar progress-bar-transparent-white animate-progress-bar" data-percentage="9%"></div>
-                                                </div> </td>
-                                            <td class="text-right"><span id="projectbar5">53,70,47,96,62,49,69,55</span> </td>
-                                        </tr>
-                                        <tr>
-                                            <td>6</td>
-                                            <td>Email server backup</td>
-                                            <td class="color-orange priority">Normal priority</td>
-                                            <td class="progress-cell">
-                                                <div class="progress-info">
-                                                    <div class="percent">
-                                                        <span class="animate-number" data-value="29" data-animation-duration="1500">0</span>%
-                                                    </div>
-                                                </div>
-                                                <div class="progress progress-little">
-                                                    <div class="progress-bar progress-bar-transparent-white animate-progress-bar" data-percentage="29%"></div>
-                                                </div> </td>
-                                            <td class="text-right"><span id="projectbar6">69,80,85,96,67,58,75,82</span> </td>
+                                        <tr th:each="task:${taskList}">
+                                            <td th:text="${task.sort}">1</td>
+                                            <td th:text="${task.scheduler}">scheduler</td>
+                                            <td th:text="${task.monitor}">monitor</td>
+                                            <td th:text="${task.executor}">executor</td>
+                                            <td th:text="${task.createTime}">2017.12.28 15:09:22</td>
                                         </tr>
                                         </tbody>
                                     </table>

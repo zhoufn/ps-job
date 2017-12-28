@@ -1,6 +1,11 @@
 package org.ps.service;
 
+
+
+
 import org.ps.domain.ServerStatus;
+import org.ps.domain.Task;
+import java.util.List;
 
 /**
  * 首页相关Service接口
@@ -12,4 +17,11 @@ public interface IndexService {
      * @throws Exception
      */
     public ServerStatus showServerStatus() throws Exception;
+
+    /**
+     * 展示等待任务列表
+     * @return 待展示任务列表集合
+     * @throws Exception
+     */
+    public List<Task> showWaitingTaskList() throws Exception;
 }

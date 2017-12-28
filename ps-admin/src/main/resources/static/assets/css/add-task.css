@@ -1,0 +1,8 @@
+.btn-center{
+    text-align: center;
+}
+.btn-center .btn-group .btn{
+    border: none !important;
+    margin: 0 3px !important;
+    border-radius: 4px !important;
+}
