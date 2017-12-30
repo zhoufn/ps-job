@@ -27,6 +27,17 @@ public class ActuatorHandler {
     @Autowired
     private ZookeeperHandler zookeeperHandler;
 
+    /**
+     * 新增等待任务节点
+     * @param task 任务对象
+     * @return
+     * @throws Exception
+     */
+    public boolean addTask(Task task) throws Exception{
+        String dataStr = JSON.toJSONString(task);
+        return zookeeperHandler.getClient().updateDataForPath("/" + Constant.NODE_TASK + "/" + Constant.NODE_TASK_WAITING + "/" +task.getId(), dataStr, true);
+    }
+
 
     /**
      * 获取调度器、监控器、执行器监控数据
@@ -125,7 +136,7 @@ public class ActuatorHandler {
      * @throws Exception
      */
     public List<Task> getWaitingTaskList() throws Exception{
-        Map<String, String> taskWaitingMap = zookeeperHandler.getClient().getChildrenWithData("/" + Constant.NODE_TASK + "/" + Constant.NODE_TASK_RUNNING);
+        Map<String, String> taskWaitingMap = zookeeperHandler.getClient().getChildrenWithData("/" + Constant.NODE_TASK + "/" + Constant.NODE_TASK_WAITING);
         List<Task> taskList = new ArrayList<>();
         for(String key : taskWaitingMap.keySet()){
             String dataStr = taskWaitingMap.get(key);

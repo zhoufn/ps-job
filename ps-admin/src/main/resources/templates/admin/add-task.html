@@ -54,28 +54,34 @@
 
                             </div>
                             <div class="tile-body">
-                                <form class="form-horizontal">
+                                <form class="form-horizontal" th:action="@{/task/add}" method="post">
                                     <div class="form-group">
                                         <label for="scheduler" class="col-sm-2 control-label">调度类</label>
                                         <div class="col-sm-10">
-                                            <input type="text" class="form-control" id="scheduler" placeholder="请输入调度类">
+                                            <input type="text" class="form-control" id="scheduler" name="scheduler" placeholder="请输入调度类">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="monitor" class="col-sm-2 control-label">监控类</label>
                                         <div class="col-sm-10">
-                                            <input type="password" class="form-control" id="monitor" placeholder="请输入监控类">
+                                            <input type="text" class="form-control" id="monitor" name="monitor" placeholder="请输入监控类">
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label for="executor" class="col-sm-2 control-label">执行类</label>
                                         <div class="col-sm-10">
-                                            <input type="password" class="form-control" id="executor" placeholder="请输入执行类">
+                                            <input type="text" class="form-control" id="executor" name="executor" placeholder="请输入执行类">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="sort" class="col-sm-2 control-label">优先级</label>
+                                        <div class="col-sm-10">
+                                            <input type="number" class="form-control" id="sort" name="sort" placeholder="请输入优先级">
                                         </div>
                                     </div>
                                     <div class="form-group btn-center">
                                         <div class="btn-group">
-                                            <button type="submit" class="btn btn-primary">提交</button>
+                                            <button type="button" id="addBtn" class="btn btn-primary">提交</button>
                                             <button type="reset" class="btn btn-default">重置</button>
                                         </div>
                                     </div>
@@ -110,11 +116,7 @@
 <script th:src="@{/assets/js/vendor/tabdrop/bootstrap-tabdrop.min.js}"></script>
 <script th:src="@{/assets/js/vendor/summernote/summernote.min.js}"></script>
 <script th:src="@{/assets/js/minimal.min.js}"></script>
-<script>
-    $(function () {
-
-    })
-
-</script>
+<script th:src="@{/assets/js/common.js}"></script>
+<script th:src="@{/assets/js/add-task.js}"></script>
 </body>
 </html>

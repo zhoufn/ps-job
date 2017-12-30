@@ -2,15 +2,19 @@ package org.ps.controllers;
 
 import org.ps.service.TaskService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.ps.domain.Task;
 
-@Controller
+@RestController
 public class TaskController {
 
     @Autowired
     private TaskService taskService;
 
-    public String addTask(){
-        return "";
+    @PostMapping("/task/add")
+    public boolean addTask(Task task) throws Exception{
+
+        return taskService.addTask(task);
     }
 }

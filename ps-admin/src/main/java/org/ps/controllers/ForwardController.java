@@ -5,6 +5,7 @@ import org.ps.service.IndexService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.ps.domain.Task;
 
@@ -38,7 +39,7 @@ public class ForwardController {
     @RequestMapping("/task")
     public String toTask(){return "admin/task";}
 
-    @RequestMapping("/task/add")
+    @GetMapping("/task/add")
     public String toAddTask(Model model) throws Exception{
         List<Task> taskList = indexService.showWaitingTaskList();
         model.addAttribute("taskList", taskList);

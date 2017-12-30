@@ -243,13 +243,13 @@
                 Menus
                 <i class="fa fa-angle-up"></i></a>
                 <ul class="menu">
-                    <li class="active"><a href="index.html"> <i class="fa fa-tachometer"></i> 工作台 </a></li>
+                    <li class="active"><a th:href="@{/index}"> <i class="fa fa-tachometer"></i> 工作台 </a></li>
                     <li class="dropdown open"><a href="#" class="dropdown-toggle" data-toggle="dropdown"> <i
                             class="fa fa-list"></i> 任务管理 <b class="fa fa-plus dropdown-plus"></b> </a>
                         <ul class="dropdown-menu">
-                            <li><a href="form-elements.html"> <i class="fa fa-caret-right"></i> 任务列表 </a>
+                            <li><a th:href="@{/task/list}"> <i class="fa fa-caret-right"></i> 任务列表 </a>
                             </li>
-                            <li><a href="validation-elements.html"> <i class="fa fa-caret-right"></i> 新增任务 </a>
+                            <li><a th:href="@{/task/add}"> <i class="fa fa-caret-right"></i> 新增任务 </a>
                             </li>
                         </ul>
                     </li>
