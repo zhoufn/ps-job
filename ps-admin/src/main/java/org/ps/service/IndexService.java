@@ -5,6 +5,9 @@ package org.ps.service;
 
 import org.ps.domain.ServerStatus;
 import org.ps.domain.Task;
+import org.ps.enums.TaskType;
+import org.ps.handler.ActuatorHandler;
+
 import java.util.List;
 
 /**
@@ -24,4 +27,6 @@ public interface IndexService {
      * @throws Exception
      */
     public List<Task> showWaitingTaskList() throws Exception;
+
+    public List<Task> showTaskList(TaskType taskType) throws Exception;
 }

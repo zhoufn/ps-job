@@ -5,6 +5,7 @@ import org.ps.domain.Constant;
 import org.ps.domain.ServerStatus;
 import org.ps.domain.Task;
 import org.ps.domain.UrlData;
+import org.ps.enums.TaskType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -23,7 +24,6 @@ import java.util.Map;
 @Component
 public class ActuatorHandler {
 
-
     @Autowired
     private ZookeeperHandler zookeeperHandler;
 
@@ -34,8 +34,33 @@ public class ActuatorHandler {
      * @throws Exception
      */
     public boolean addTask(Task task) throws Exception{
+
         String dataStr = JSON.toJSONString(task);
         return zookeeperHandler.getClient().updateDataForPath("/" + Constant.NODE_TASK + "/" + Constant.NODE_TASK_WAITING + "/" +task.getId(), dataStr, true);
+    }
+
+    /**
+     * 根据任务类型获取任务列表
+     * @param taskType 任务类型
+     * @return
+     * @throws Exception
+     */
+    public List<Task> getTaskListByType(TaskType taskType) throws Exception{
+        List<Task> taskList = new ArrayList<>();
+        if(taskType.getValue().equals("all")){
+            taskList.addAll(getTaskListByType(TaskType.WAITING));
+            taskList.addAll(getTaskListByType(TaskType.RUNNING));
+            taskList.addAll(getTaskListByType(TaskType.DOWN));
+            return taskList;
+        }
+        Map<String, String> taskMap = zookeeperHandler.getClient().getChildrenWithData("/" + Constant.NODE_TASK + "/" + taskType.getValue());
+        for(String key : taskMap.keySet()){
+            String dataStr = taskMap.get(key);
+            Class<Task> clazz = Task.class;
+            Task task = JSON.parseObject(dataStr, clazz);
+            taskList.add(task);
+        }
+        return taskList;
     }
 
 
@@ -130,22 +155,6 @@ public class ActuatorHandler {
         return serverStatus;
     }
 
-    /**
-     * 从zk获取等待任务集合
-     * @return 等待任务集合
-     * @throws Exception
-     */
-    public List<Task> getWaitingTaskList() throws Exception{
-        Map<String, String> taskWaitingMap = zookeeperHandler.getClient().getChildrenWithData("/" + Constant.NODE_TASK + "/" + Constant.NODE_TASK_WAITING);
-        List<Task> taskList = new ArrayList<>();
-        for(String key : taskWaitingMap.keySet()){
-            String dataStr = taskWaitingMap.get(key);
-            Class<Task> clazz = Task.class;
-            Task task = JSON.parseObject(dataStr, clazz);
-            taskList.add(task);
-        }
-        return taskList;
-    }
 
     /**
      * 计算负载均衡

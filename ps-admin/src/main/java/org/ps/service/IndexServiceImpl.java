@@ -2,6 +2,7 @@ package org.ps.service;
 
 import org.ps.domain.ServerStatus;
 import org.ps.domain.Task;
+import org.ps.enums.TaskType;
 import org.ps.handler.ActuatorHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +21,11 @@ public class IndexServiceImpl implements IndexService {
 
     @Override
     public List<Task> showWaitingTaskList() throws Exception {
-        return ah.getWaitingTaskList();
+        return ah.getTaskListByType(TaskType.WAITING);
+    }
+
+    @Override
+    public List<Task> showTaskList(TaskType taskType) throws Exception {
+        return ah.getTaskListByType(taskType);
     }
 }

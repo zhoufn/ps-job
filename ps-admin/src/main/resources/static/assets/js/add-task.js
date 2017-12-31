@@ -12,11 +12,24 @@ $(function(){
             }
         }).done(function(rs){
             if(rs){
-                alert('提交成功')
+                swal({
+                    title: "提交成功",
+                    type: "success",
+                    confirmButtonText: "确定"
+                })
+            }else{
+                swal({
+                    title: "提交失败",
+                    type: "error",
+                    confirmButtonText: "确定"
+                })
             }
         }).fail(function(error){
-            console.log(error)
-            alert('fail')
+            swal({
+                title: "提交失败",
+                type: "error",
+                confirmButtonText: "确定"
+            })
         })
     })
 
