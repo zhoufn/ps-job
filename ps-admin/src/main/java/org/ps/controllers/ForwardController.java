@@ -35,6 +35,7 @@ public class ForwardController {
         List taskList = indexService.showWaitingTaskList();
         model.addAttribute("serverStatus", serverStatus);
         model.addAttribute("taskList", taskList);
+        model.addAttribute("mainMenu", "index");
         return "admin/index";
     }
 
@@ -45,12 +46,16 @@ public class ForwardController {
     public String toAddTask(Model model) throws Exception{
         List<Task> taskList = indexService.showWaitingTaskList();
         model.addAttribute("taskList", taskList);
+        model.addAttribute("mainMenu", "task");
+        model.addAttribute("subMenu", "task.add");
         return "admin/add-task";
     }
     @GetMapping("/task/list/{taskType}")
     public String toTaskList(Model model, @PathVariable("taskType") TaskType taskType) throws Exception{
         List<Task> taskList = indexService.showTaskList(taskType);
         model.addAttribute("taskList", taskList);
+        model.addAttribute("mainMenu", "task");
+        model.addAttribute("subMenu", "task.list");
         return "admin/task-list";
     }
 
