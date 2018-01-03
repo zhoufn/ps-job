@@ -15,6 +15,7 @@
     <link rel="stylesheet" type="text/css" th:href="@{/assets/js/vendor/summernote/css/summernote-bs3.css}" />
     <link rel="stylesheet" type="text/css" th:href="@{/assets/css/vendor/bootstrap-sweetalert/sweetalert.css}" />
     <link rel="stylesheet" type="text/css" th:href="@{/assets/css/minimal.css}" />
+    <link rel="stylesheet" type="text/css" th:href="@{/assets/css/base.css}" />
     <link rel="stylesheet" type="text/css" th:href="@{/assets/css/add-task.css}" />
     <style type="text/css">
         *{font-family: "Microsoft YaHei";}
@@ -55,7 +56,7 @@
 
                             </div>
                             <div class="tile-body">
-                                <form class="form-horizontal" th:action="@{/task/add}" method="post">
+                                <form class="form-horizontal" th:action="@{/task/add}" method="post" id="taskForm">
                                     <div class="form-group">
                                         <label for="scheduler" class="col-sm-2 control-label">调度类</label>
                                         <div class="col-sm-10">
@@ -68,7 +69,7 @@
                                             <input type="text" class="form-control" id="monitor" name="monitor" placeholder="请输入监控类">
                                         </div>
                                     </div>
-                                    <div class="form-group">
+                                    <div class="form-group" >
                                         <label for="executor" class="col-sm-2 control-label">执行类</label>
                                         <div class="col-sm-10">
                                             <input type="text" class="form-control" id="executor" name="executor" placeholder="请输入执行类">
@@ -82,7 +83,7 @@
                                     </div>
                                     <div class="form-group btn-center">
                                         <div class="btn-group">
-                                            <button type="button" id="addBtn" class="btn btn-primary">提交</button>
+                                            <button type="submit" id="addBtn" class="btn btn-primary">提交</button>
                                             <button type="reset" class="btn btn-default">重置</button>
                                         </div>
                                     </div>
@@ -117,6 +118,7 @@
 <script th:src="@{/assets/js/vendor/tabdrop/bootstrap-tabdrop.min.js}"></script>
 <script th:src="@{/assets/js/vendor/summernote/summernote.min.js}"></script>
 <script th:src="@{/assets/js/vendor/bootstrap-sweetalert/sweetalert.min.js}"></script>
+<script th:src="@{/assets/js/vendor/validation/jquery.validate.js}"></script>
 <script th:src="@{/assets/js/minimal.min.js}"></script>
 <script th:src="@{/assets/js/common.js}"></script>
 <script th:src="@{/assets/js/add-task.js}"></script>

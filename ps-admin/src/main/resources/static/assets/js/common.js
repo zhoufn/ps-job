@@ -1,1 +1,1 @@
-$.WEB_ROOT = '';
+$.WEB_ROOT = {};

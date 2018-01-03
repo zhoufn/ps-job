@@ -1,0 +1,12 @@
+.form-control{
+    border: 1px solid transparent !important;
+}
+.has-error .form-control{
+    border-color: #f13e64 !important;
+}
+.has-error .control-label{
+    color: #F3565D !important;
+}
+.has-error .help-block{
+    color: #F3565D !important;
+}

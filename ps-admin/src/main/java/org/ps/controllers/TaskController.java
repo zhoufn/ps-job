@@ -14,7 +14,6 @@ public class TaskController {
 
     @PostMapping("/task/add")
     public boolean addTask(Task task) throws Exception{
-
         return taskService.addTask(task);
     }
 }

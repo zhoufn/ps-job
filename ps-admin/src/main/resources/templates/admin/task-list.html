@@ -146,5 +146,15 @@
 <script th:src="@{/assets/js/minimal.min.js}"></script>
 <script th:src="@{/assets/js/common.js}"></script>
 <script th:src="@{/assets/js/task-list.js}"></script>
+<script>
+    $(function(){
+        // sortable table
+        $('.table.table-sortable th.sortable').click(function () {
+            var o = $(this).hasClass('sort-asc') ? 'sort-desc' : 'sort-asc';
+            $('th.sortable').removeClass('sort-asc').removeClass('sort-desc');
+            $(this).addClass(o);
+        });
+    })
+</script>
 </body>
 </html>
