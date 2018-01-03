@@ -4,7 +4,7 @@ $(function(){
         offText: '暂停',
         size: 'small',
         onSwitchChange: function(){
-            swal({
+            /*swal({
                     title: "您确定吗",
                     type: "warning",
                     showCancelButton: true,
@@ -19,7 +19,7 @@ $(function(){
                         type: "success",
                         confirmButtonText: "确定"
                     });
-                });
+                });*/
         }
     });
 })
