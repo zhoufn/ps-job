@@ -155,6 +155,20 @@ public class ActuatorHandler {
         return serverStatus;
     }
 
+    /**
+     * 更新任务运行状态
+     * @param taskId   任务id
+     * @param paused   是否暂停标识位
+     * @return
+     * @throws Exception
+     */
+    public boolean updateTask(String taskId, boolean paused) throws Exception{
+        String path = "/" + Constant.NODE_TASK + "/" + Constant.NODE_TASK_WAITING + "/" +taskId;
+        Task task = JSON.parseObject(zookeeperHandler.getClient().getDataForPath(path), Task.class);
+        task.setPaused(paused);
+        return zookeeperHandler.getClient().updateDataForPath(path, JSON.toJSONString(task), false);
+    }
+
 
     /**
      * 计算负载均衡

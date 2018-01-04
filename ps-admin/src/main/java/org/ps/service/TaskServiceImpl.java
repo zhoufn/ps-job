@@ -18,4 +18,9 @@ public class TaskServiceImpl implements TaskService{
         return ah.addTask(task);
     }
 
+    @Override
+    public boolean updateTask(String taskId, boolean paused) throws Exception {
+        return ah.updateTask(taskId, paused);
+    }
+
 }

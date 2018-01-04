@@ -12,4 +12,13 @@ public interface TaskService {
      * @return
      */
     public boolean addTask(Task task) throws Exception;
+
+    /**
+     * 更新服务运行状态
+     * @param taskId 任务ID
+     * @param paused 是否暂停标志位
+     * @return
+     * @throws Exception
+     */
+    public boolean updateTask(String taskId, boolean paused) throws Exception;
 }

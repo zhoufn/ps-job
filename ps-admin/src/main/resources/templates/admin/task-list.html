@@ -81,7 +81,7 @@
                                         </tr>
                                         </thead>
                                         <tbody>
-                                        <tr th:each="task:${taskList}">
+                                        <tr th:each="task:${taskList}" th:attr="data-task-id=${task.id}">
                                             <td th:text="${task.sort}">1</td>
                                             <td th:text="${task.scheduler}">scheduler</td>
                                             <td th:text="${task.monitor}">monitor</td>
