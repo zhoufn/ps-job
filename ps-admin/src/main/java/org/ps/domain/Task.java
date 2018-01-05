@@ -78,6 +78,11 @@ public class Task implements Serializable, Comparable<Task> {
      */
     private boolean paused = false;
 
+    /**
+     * 字符串类型创建日期，用于页面展示
+     */
+    private String createTimeStr;
+
 
     /**
      *

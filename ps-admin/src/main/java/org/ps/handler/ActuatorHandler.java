@@ -6,6 +6,7 @@ import org.ps.domain.ServerStatus;
 import org.ps.domain.Task;
 import org.ps.domain.UrlData;
 import org.ps.enums.TaskType;
+import org.ps.uitl.DateUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -58,6 +59,7 @@ public class ActuatorHandler {
             String dataStr = taskMap.get(key);
             Class<Task> clazz = Task.class;
             Task task = JSON.parseObject(dataStr, clazz);
+            task.setCreateTimeStr(DateUtils.longToString(task.getCreateTime(), DateUtils.FORMAT_1));
             taskList.add(task);
         }
         return taskList;

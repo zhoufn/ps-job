@@ -86,7 +86,7 @@
                                             <td th:text="${task.scheduler}">scheduler</td>
                                             <td th:text="${task.monitor}">monitor</td>
                                             <td th:text="${task.executor}">executor</td>
-                                            <td th:text="${task.createTime}">2017.12.28 15:09:22</td>
+                                            <td th:text="${task.createTimeStr}">2017.12.28 15:09:22</td>
                                             <td class="text-center">
                                                 <input th:unless="${task.paused}" type="checkbox" name="bootstrap-switch" checked />
                                                 <input th:if="${task.paused}" type="checkbox" name="bootstrap-switch" />

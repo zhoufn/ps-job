@@ -17,7 +17,7 @@ public class TaskController {
         return taskService.addTask(task);
     }
     @PostMapping("/task/update")
-    public boolean update(String taskId,boolean paused) throws Exception{
+    public boolean update(String taskId, boolean paused) throws Exception{
         return taskService.updateTask(taskId, paused);
     }
 }

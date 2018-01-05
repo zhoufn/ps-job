@@ -4,7 +4,6 @@ $(function(){
         offText: '暂停',
         size: 'small',
         onSwitchChange: function(event, state){
-            console.log(state)
             $.ajax({
                 url: $.WEB_ROOT + '/task/update',
                 type: 'POST',
