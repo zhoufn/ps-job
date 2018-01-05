@@ -72,15 +72,15 @@
                                     <table class="table table-custom table-sortable nomargin">
                                         <thead>
                                         <tr>
-                                            <th class="sortable sort-numeric sort-asc">优先级</th>
-                                            <th class="sortable">调度类</th>
-                                            <th class="sortable">监控类</th>
-                                            <th class="sortable">执行类</th>
-                                            <th class="sortable sort-numeric">创建时间</th>
+                                            <th class="sortable sort-numeric" data-sort-type="sort">优先级</th>
+                                            <th class="sortable" data-sort-type="scheduler">调度类</th>
+                                            <th class="sortable" data-sort-type="monitor">监控类</th>
+                                            <th class="sortable" data-sort-type="executor">执行类</th>
+                                            <th class="sortable sort-numeric" data-sort-type="createTimeStr">创建时间</th>
                                             <th class="">操作</th>
                                         </tr>
                                         </thead>
-                                        <tbody>
+                                        <tbody th:attr="data-store=${taskListJson}">
                                         <tr th:each="task:${taskList}" th:attr="data-task-id=${task.id}">
                                             <td th:text="${task.sort}">1</td>
                                             <td th:text="${task.scheduler}">scheduler</td>
@@ -97,7 +97,7 @@
                                 </div>
                             </div>
                             <!-- /tile body -->
-                            <!-- tile footer -->
+                            <!-- tile footer
                             <div class="tile-footer text-center">
                                 <ul class="pagination pagination-sm nomargin pagination-custom">
                                     <li class="disabled"><a href="#"><i class="fa fa-angle-double-left"></i></a></li>
@@ -109,7 +109,7 @@
                                     <li><a href="#"><i class="fa fa-angle-double-right"></i></a></li>
                                 </ul>
                             </div>
-                            <!-- /tile footer -->
+                            /tile footer -->
                         </section>
                         <!-- /tile -->
                     </div>
@@ -152,6 +152,9 @@
         $('.table.table-sortable th.sortable').click(function () {
             var o = $(this).hasClass('sort-asc') ? 'sort-desc' : 'sort-asc';
             $('th.sortable').removeClass('sort-asc').removeClass('sort-desc');
+            var store = JSON.parse($('[data-store]').attr('data-store')),
+                sortBy = $(this).attr('data-sort-type');
+            Common.sortTable(store, sortBy, o, TaskList.tableRenderer);
             $(this).addClass(o);
         });
     })

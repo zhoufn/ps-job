@@ -1,5 +1,6 @@
 package org.ps.controllers;
 
+import com.alibaba.fastjson.JSON;
 import org.ps.domain.ServerStatus;
 import org.ps.enums.TaskType;
 import org.ps.service.IndexService;
@@ -36,6 +37,7 @@ public class ForwardController {
         model.addAttribute("serverStatus", serverStatus);
         model.addAttribute("taskList", taskList);
         model.addAttribute("mainMenu", "index");
+        model.addAttribute("taskListJson", JSON.toJSONString(taskList));
         return "admin/index";
     }
 
@@ -56,6 +58,7 @@ public class ForwardController {
         model.addAttribute("taskList", taskList);
         model.addAttribute("mainMenu", "task");
         model.addAttribute("subMenu", "task.list");
+        model.addAttribute("taskListJson", JSON.toJSONString(taskList));
         return "admin/task-list";
     }
 
