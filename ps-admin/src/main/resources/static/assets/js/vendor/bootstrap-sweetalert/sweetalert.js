@@ -935,8 +935,8 @@ var lastFocusedButton;
 var sweetAlert, _swal;
 
 exports.default = sweetAlert = _swal = function swal() {
+  console.log(123)
   var customizations = arguments[0];
-
   (0, _handleDom.addClass)(document.body, 'stop-scrolling');
   (0, _handleSwalDom.resetInput)();
 

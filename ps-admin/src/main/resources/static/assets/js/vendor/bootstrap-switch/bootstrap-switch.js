@@ -575,18 +575,25 @@
           'change.bootstrapSwitch': function changeBootstrapSwitch(event, skip) {
             event.preventDefault();
             event.stopImmediatePropagation();
-            var state = _this5.$element.is(':checked');
-            _this5._containerPosition(state);
-            if (state === _this5.options.state) {
-              return;
-            }
-            _this5.options.state = state;
-            _this5.$wrapper.toggleClass(_this5._getClass('off')).toggleClass(_this5._getClass('on'));
-            if (!skip) {
-              if (_this5.$element.is(':radio')) {
-                $('[name="' + _this5.$element.attr('name') + '"]').not(_this5.$element).prop('checked', false).trigger('change.bootstrapSwitch', true);
+            _this5.options.beforeChange(function(isOk){
+              if(isOk){
+                  changeSwitch();
               }
-              _this5.$element.trigger('switchChange.bootstrapSwitch', [state]);
+            });
+            function changeSwitch(){
+                var state = _this5.$element.is(':checked');
+                _this5._containerPosition(state);
+                if (state === _this5.options.state) {
+                    return;
+                }
+                _this5.options.state = state;
+                _this5.$wrapper.toggleClass(_this5._getClass('off')).toggleClass(_this5._getClass('on'));
+                if (!skip) {
+                    if (_this5.$element.is(':radio')) {
+                        $('[name="' + _this5.$element.attr('name') + '"]').not(_this5.$element).prop('checked', false).trigger('change.bootstrapSwitch', true);
+                    }
+                    _this5.$element.trigger('switchChange.bootstrapSwitch', [state]);
+                }
             }
           },
 
@@ -779,6 +786,7 @@
     baseClass: 'bootstrap-switch',
     wrapperClass: 'wrapper',
     onInit: function onInit() {},
-    onSwitchChange: function onSwitchChange() {}
+    onSwitchChange: function onSwitchChange() {},
+    beforeChange: function(cb){cb(true);}
   };
 });

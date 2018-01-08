@@ -31,6 +31,15 @@ var TaskList = (function(){
                 onText: '执行',
                 offText: '暂停',
                 size: 'small',
+                beforeChange: function (callback){
+                    swal({
+                        title: "您确定吗？",
+                        type: "warning",
+                        confirmButtonText: "确定",
+                        showCancelButton: true,
+                        cancelButtonText: '取消'
+                    }, callback);
+                },
                 onSwitchChange: function(event, state){
                     $.ajax({
                         url: $.WEB_ROOT + '/task/update',
@@ -50,6 +59,7 @@ var TaskList = (function(){
                             }, function(){
                                 window.location.reload();
                             })
+
                         }else{
                             swal({
                                 title: "修改失败",
