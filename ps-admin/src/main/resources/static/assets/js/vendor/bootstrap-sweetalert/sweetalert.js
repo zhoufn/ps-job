@@ -935,7 +935,6 @@ var lastFocusedButton;
 var sweetAlert, _swal;
 
 exports.default = sweetAlert = _swal = function swal() {
-  console.log(123)
   var customizations = arguments[0];
   (0, _handleDom.addClass)(document.body, 'stop-scrolling');
   (0, _handleSwalDom.resetInput)();
@@ -1007,7 +1006,8 @@ exports.default = sweetAlert = _swal = function swal() {
   var $buttons = modal.querySelectorAll('button');
   var buttonEvents = ['onclick'];
   var onButtonEvent = function onButtonEvent(e) {
-    return (0, _handleClick.handleButton)(e, params, modal);
+    var a = (0, _handleClick.handleButton)(e, params, modal)
+    return a;
   };
 
   for (var btnIndex = 0; btnIndex < $buttons.length; btnIndex++) {

@@ -575,11 +575,7 @@
           'change.bootstrapSwitch': function changeBootstrapSwitch(event, skip) {
             event.preventDefault();
             event.stopImmediatePropagation();
-            _this5.options.beforeChange(function(isOk){
-              if(isOk){
-                  changeSwitch();
-              }
-            });
+            _this5.options.beforeChange(changeSwitch);
             function changeSwitch(){
                 var state = _this5.$element.is(':checked');
                 _this5._containerPosition(state);
@@ -787,6 +783,6 @@
     wrapperClass: 'wrapper',
     onInit: function onInit() {},
     onSwitchChange: function onSwitchChange() {},
-    beforeChange: function(cb){cb(true);}
+    beforeChange: function(cb){cb();}
   };
 });

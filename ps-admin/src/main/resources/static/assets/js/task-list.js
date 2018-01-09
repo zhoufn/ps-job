@@ -31,14 +31,19 @@ var TaskList = (function(){
                 onText: '执行',
                 offText: '暂停',
                 size: 'small',
-                beforeChange: function (callback){
+                beforeChange: function (next){
                     swal({
                         title: "您确定吗？",
                         type: "warning",
                         confirmButtonText: "确定",
                         showCancelButton: true,
-                        cancelButtonText: '取消'
-                    }, callback);
+                        cancelButtonText: '取消',
+                        closeOnConfirm: false
+                    }, function(isOk){
+                        if(isOk){
+                            next();
+                        }
+                    });
                 },
                 onSwitchChange: function(event, state){
                     $.ajax({
