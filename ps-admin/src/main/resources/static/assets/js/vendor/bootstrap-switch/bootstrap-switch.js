@@ -575,9 +575,10 @@
           'change.bootstrapSwitch': function changeBootstrapSwitch(event, skip) {
             event.preventDefault();
             event.stopImmediatePropagation();
-            _this5.options.beforeChange(changeSwitch);
+            var state = _this5.$element.is(':checked');
+            _this5.options.beforeChange(state, changeSwitch);
             function changeSwitch(){
-                var state = _this5.$element.is(':checked');
+                //var state = _this5.$element.is(':checked');
                 _this5._containerPosition(state);
                 if (state === _this5.options.state) {
                     return;

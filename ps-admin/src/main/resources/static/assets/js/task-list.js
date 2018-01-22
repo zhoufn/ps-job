@@ -31,9 +31,10 @@ var TaskList = (function(){
                 onText: '执行',
                 offText: '暂停',
                 size: 'small',
-                beforeChange: function (next){
+                beforeChange: function (state, next){
+                    var title = state ? "您确定要执行该任务吗？" : "您确定要暂停该任务吗？";
                     swal({
-                        title: "您确定吗？",
+                        title: title,
                         type: "warning",
                         confirmButtonText: "确定",
                         showCancelButton: true,
